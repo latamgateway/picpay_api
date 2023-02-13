@@ -15,7 +15,7 @@ module PicPayApi
     attr_accessor :client_id, :client_secret, :scope
 
     sig { returns(URI::Generic) }
-    attr_accessor :auth_url
+    attr_accessor :url
 
     SCOPE = 'openid b2p.transfer'.freeze
 
@@ -41,10 +41,7 @@ module PicPayApi
       logger: Logger.new(STDOUT)
     )
       @logger        = logger
-      @auth_url      = T.let(
-        URI.join(base_url, '/oauth2/token'), URI::Generic
-      # URI.join('https://enw735b71j6xp.x.pipedream.net'), URI::Generic
-      )
+      @url           = T.let(URI.join(base_url, '/oauth2/token'), URI::Generic)
       @client_id     = client_id
       @client_secret = client_secret
       @scope         = scope
@@ -58,7 +55,7 @@ module PicPayApi
         "client_secret": @client_secret,
       }
 
-      response = PicPayApi::HTTP::Client.post!(@auth_url, payload)
+      response = PicPayApi::HTTP::Client.post!(@url, payload)
       body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 
       unless response.is_a?(Net::HTTPSuccess)
@@ -68,16 +65,22 @@ module PicPayApi
       body
     end
 
-    def refresh_token_request
+    def refresh_token_request(refresh_token:)
       payload = {
-        "grant_type":    GRAND_TYPE[:refresh_token],
-        "scope":         @scope,
+        "grant_type":    GRAND_TYPE[:refresh_token_request],
         "client_id":     @client_id,
         "client_secret": @client_secret,
-        "refresh_token": "eyJhbGciOiJIUzI1NVCJ9.eyJkYXRhIjoidmFsdWUifQ.78pp6_Dx5L0fz-xkpUEbZI"
+        "refresh_token": refresh_token,
       }
 
-      PicPayApi::HTTP::Client.post!(@auth_url, payload)
+      response = PicPayApi::HTTP::Client.post!(@url, payload)
+      body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
+
+      unless response.is_a?(Net::HTTPSuccess)
+        raise PicPayApi::Errors::Unauthorized, body[:error_description]
+      end
+
+      body
 
     end
 
