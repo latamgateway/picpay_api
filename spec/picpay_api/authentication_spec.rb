@@ -65,7 +65,7 @@ RSpec.describe PicPayApi::Authentication do
         .with(body: payload.to_json)
         .to_return(body: token_request_failure_response_body.to_json, status: 400)
 
-      expect { authentication.token_request }.to raise_error(PicPayApi::Errors::Unauthorized)
+      expect { authentication.token_request }.to raise_error(PicPayApi::Errors::Authentication)
     end
 
   end
@@ -99,7 +99,7 @@ RSpec.describe PicPayApi::Authentication do
         .with(body: payload.to_json)
         .to_return(body: token_request_failure_response_body.to_json, status: 400)
 
-      expect { authentication.refresh_token_request(refresh_token: refresh_token) }.to raise_error(PicPayApi::Errors::Unauthorized)
+      expect { authentication.refresh_token_request(refresh_token: refresh_token) }.to raise_error(PicPayApi::Errors::Authentication)
     end
   end
 

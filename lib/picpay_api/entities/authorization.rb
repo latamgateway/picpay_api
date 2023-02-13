@@ -7,7 +7,7 @@ module PicPayApi
 
       extend T::Sig
 
-      TYPE = {
+      TYPES = {
         bearer: 'Bearer',
       }
 
@@ -31,9 +31,15 @@ module PicPayApi
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h
         {
-          token: @token,
-          type:  @type,
+          authorization: {
+            token: @token,
+            type:  @type,
+          },
         }
+      end
+
+      def to_s
+        TYPES[:"#{@type}"] + ' ' + @token
       end
 
     end

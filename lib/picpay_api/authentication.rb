@@ -63,7 +63,7 @@ module PicPayApi
       body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 
       unless response.is_a?(Net::HTTPSuccess)
-        raise PicPayApi::Errors::Unauthorized, body[:error_description]
+        raise PicPayApi::Errors::Authentication, body[:error_description]
       end
 
       body

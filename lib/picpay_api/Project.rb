@@ -3,17 +3,17 @@
 
 require 'logger'
 
-
-{
-  "name": "Lorem ipsum",
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-  "started_at": "2021-01-01",
-  "ended_at": "2021-06-01 15:00",
-  "withdrawable": true,
-  "payee_transaction_limit": 2,
-  "payee_transaction_value": 50.25,
-  "identical_transaction_rule": false
-}
+#
+# {
+#   "name": "Lorem ipsum",
+#   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+#   "started_at": "2021-01-01",
+#   "ended_at": "2021-06-01 15:00",
+#   "withdrawable": true,
+#   "payee_transaction_limit": 2,
+#   "payee_transaction_value": 50.25,
+#   "identical_transaction_rule": false
+# }
 
 module PicPayApi
   class Project
@@ -71,7 +71,7 @@ module PicPayApi
       body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 
       unless response.is_a?(Net::HTTPSuccess)
-        raise PicPayApi::Errors::Unauthorized, body[:error_description]
+        raise PicPayApi::Errors::Authentication, body[:error_description]
       end
 
       body
@@ -89,7 +89,7 @@ module PicPayApi
       body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 
       unless response.is_a?(Net::HTTPSuccess)
-        raise PicPayApi::Errors::Unauthorized, body[:error_description]
+        raise PicPayApi::Errors::Authentication, body[:error_description]
       end
 
       body
