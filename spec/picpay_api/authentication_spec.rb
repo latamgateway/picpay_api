@@ -13,7 +13,7 @@ RSpec.describe PicPayApi::Authentication do
       base_url:      base_url,
       client_id:     '7461f6d2-1ac9-4daa-851f-57259c49d859',
       client_secret: '7461f6d2-1ac9-4daa-851f-57259c49d859',
-    )
+      )
   end
 
   let(:token_request_success_response_body) do
@@ -30,17 +30,21 @@ RSpec.describe PicPayApi::Authentication do
     )
   end
 
+  describe 'test' do
+    let(:auth_url) { URI.join(base_url, '/oauth2/token') }
+
+    let(:payload) { build(:token_request) }
+
+    it 'does somethign' do
+      puts "here"
+    end
+
+  end
+
   describe 'manual token_request' do
     let(:auth_url) { URI.join(base_url, '/oauth2/token') }
 
-    let(:payload) do
-      {
-        "grant_type":    described_class::GRAND_TYPE[:token_request],
-        "scope":         described_class::SCOPE,
-        "client_id":     client_id,
-        "client_secret": client_secret,
-      }
-    end
+    let(:payload) { build(:token_request).to_h }
 
     it 'performs manual token_request_success' do
       stub_request(:post, auth_url)
@@ -73,14 +77,8 @@ RSpec.describe PicPayApi::Authentication do
 
     let(:auth_url) { URI.join(base_url, '/oauth2/token') }
 
-    let(:payload) do
-      {
-        "grant_type":    described_class::GRAND_TYPE[:refresh_token_request],
-        "client_id":     client_id,
-        "client_secret": client_secret,
-        "refresh_token": refresh_token,
-      }
-    end
+
+    let(:payload) { build(:refresh_token_request).to_h }
 
     it 'performs manual refresh_token_request_success' do
       stub_request(:post, auth_url)
