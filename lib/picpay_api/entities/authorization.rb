@@ -31,10 +31,8 @@ module PicPayApi
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h
         {
-          authorization: {
-            token: @token,
-            type:  @type,
-          },
+          token: @token,
+          type:  @type,
         }
       end
 

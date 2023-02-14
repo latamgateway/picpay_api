@@ -39,6 +39,7 @@ module PicPayApi
 
     end
 
+    sig { returns(T.untyped) }
     def token_request
       token_request = PicPayApi::Entities::TokenRequest.new(
         client_id:     @client_id,
@@ -47,6 +48,7 @@ module PicPayApi
       request!(entity: token_request)
     end
 
+    sig { params(refresh_token: String).returns(T.untyped) }
     def refresh_token_request(refresh_token:)
       refresh_token_request = PicPayApi::Entities::RefreshTokenRequest.new(
         client_id:     @client_id,
@@ -59,8 +61,12 @@ module PicPayApi
     private
 
     def request!(entity:)
-      response = PicPayApi::HTTP::Client.post!(@url, entity.to_h)
+      response = PicPayApi::HTTP::Client.post!(uri: @url, payload: entity.to_h)
       body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
+
+
+      puts response.inspect
+
 
       unless response.is_a?(Net::HTTPSuccess)
         raise PicPayApi::Errors::Authentication, body[:error_description]

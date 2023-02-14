@@ -30,17 +30,6 @@ RSpec.describe PicPayApi::Authentication do
     )
   end
 
-  describe 'test' do
-    let(:auth_url) { URI.join(base_url, '/oauth2/token') }
-
-    let(:payload) { build(:token_request) }
-
-    it 'does somethign' do
-      puts "here"
-    end
-
-  end
-
   describe 'manual token_request' do
     let(:auth_url) { URI.join(base_url, '/oauth2/token') }
 
