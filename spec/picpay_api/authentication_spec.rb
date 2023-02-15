@@ -31,12 +31,12 @@ RSpec.describe PicPayApi::Authentication do
   end
 
   describe 'manual token_request' do
-    let(:auth_url) { URI.join(base_url, '/oauth2/token') }
+    let(:url) { URI.join(base_url, '/oauth2/token') }
 
     let(:payload) { build(:token_request).to_h }
 
     it 'performs manual token_request_success' do
-      stub_request(:post, auth_url)
+      stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: token_request_success_response_body.to_json, status: 200)
 
@@ -50,7 +50,7 @@ RSpec.describe PicPayApi::Authentication do
     end
 
     it 'performs manual token_request_failure' do
-      stub_request(:post, auth_url)
+      stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: token_request_failure_response_body.to_json, status: 400)
 
@@ -64,13 +64,13 @@ RSpec.describe PicPayApi::Authentication do
       token_request_success_response_body[:refresh_token]
     end
 
-    let(:auth_url) { URI.join(base_url, '/oauth2/token') }
+    let(:url) { URI.join(base_url, '/oauth2/token') }
 
 
     let(:payload) { build(:refresh_token_request).to_h }
 
     it 'performs manual refresh_token_request_success' do
-      stub_request(:post, auth_url)
+      stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: token_request_success_response_body.to_json, status: 200)
 
@@ -84,7 +84,7 @@ RSpec.describe PicPayApi::Authentication do
     end
 
     it 'performs manual refresh_token_request_failure' do
-      stub_request(:post, auth_url)
+      stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: token_request_failure_response_body.to_json, status: 400)
 

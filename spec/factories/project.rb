@@ -20,10 +20,10 @@ FactoryBot.define do
         description: description,
         started_at: Date.parse(started_at),
         ended_at: DateTime.parse(started_at),
-        withdrawable: withdrawable,
-        payee_transaction_limit: payee_transaction_limit,
-        payee_transaction_value: payee_transaction_value,
-        identical_transaction_rule: identical_transaction_rule,
+        withdrawable: (!!withdrawable),
+        payee_transaction_limit: payee_transaction_limit.to_i,
+        payee_transaction_value: payee_transaction_value.to_f,
+        identical_transaction_rule: (!!identical_transaction_rule),
       )
     end
   end
