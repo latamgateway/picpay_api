@@ -65,7 +65,7 @@ module PicPayApi
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h
-        hash = { project_id: @project_id } unless @project_id.nil?
+        @project_id.nil? ? hash = {} : hash = { project_id: @project_id }
 
         hash.merge!({
           name:                       @name,
