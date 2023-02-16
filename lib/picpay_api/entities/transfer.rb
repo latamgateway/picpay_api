@@ -1,43 +1,87 @@
 # typed: strict
 # frozen_string_literal: true
 
+require 'time'
+
 module PicPayApi
   module Entities
-    class Transfer
+    class Transfer < T::Struct
 
       extend T::Sig
 
-      TYPES = {
-        bearer: 'Bearer',
-      }
+      sig { returns(Float) }
+      attr_accessor :value
+
+      sig { returns(Integer) }
+      attr_accessor :transaction_id
 
       sig { returns(String) }
-      attr_accessor :type, :token
+      attr_accessor :transfer_id, :status, :operacao
+
+      sig { returns(DateTime) }
+      attr_accessor :created_at, :transfered_at
+
+      sig { returns(T::Boolean) }
+      attr_accessor :erro
 
       sig do
         params(
-          type:  String,
-          token: String,
+          transfer_id:    String,
+          status:         String,
+          value:          Float,
+          transfered_at:  DateTime,
+          transaction_id: Integer,
+          created_at:     DateTime,
+          erro:           T::Boolean,
+          operacao:       String,
         ).void
       end
       def initialize(
-        type:,
-        token:
+        transfer_id:,
+        status:,
+        value:,
+        transfered_at:,
+        transaction_id:,
+        created_at:,
+        erro:,
+        operacao:
       )
-        @token = token
-        @type  = type
+        @transfer_id    = transfer_id
+        @status         = status
+        @value          = value
+        @transfered_at  = transfered_at
+        @transaction_id = transaction_id
+        @created_at     = created_at
+        @erro           = erro
+        @operacao       = operacao
       end
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h
         {
-          token: @token,
-          type:  @type,
+          transfer_id:    @transfer_id,
+          status:         @status,
+          value:          @value,
+          transfered_at:  @transfered_at,
+          transaction_id: @transaction_id,
+          created_at:     @created_at,
+          erro:           @erro,
+          operacao:       @operacao,
         }
       end
 
-      def to_s
-        TYPES[:"#{@type}"] + ' ' + @token
+      sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::Transfer) }
+      def self.from_h(hash:)
+        PicPayApi::Entities::Transfer.new(
+          transfer_id:    hash[:transfer_id].to_s,
+          status:         hash[:status].to_s,
+          value:          hash[:value].to_f,
+          transfered_at:  DateTime.parse(hash[:transfered_at]),
+          transaction_id: hash[:transaction_id].to_i,
+          created_at:     DateTime.parse(hash[:created_at]),
+          erro:           (!!hash[:erro]),
+          operacao:       hash[:operacao].to_s
+        )
       end
 
     end

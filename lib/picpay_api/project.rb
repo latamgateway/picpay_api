@@ -36,17 +36,35 @@ module PicPayApi
 
     sig do
       params(
+        project_id: String,
+        entity:     PicPayApi::Entities::Project,
+      ).returns(T::Hash[Symbol, T.untyped])
+    end
+    def update(project_id:, entity:)
+      entity.project_id = project_id
+      response = PicPayApi::HTTP::Client.put!(uri: @url, payload: entity.to_h, authorization: @authorization)
+
+      body = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
+
+      if response.is_a?(Net::HTTPServerError)
+        raise PicPayApi::Errors::ServerError, body[:message]
+      elsif response.is_a?(Net::HTTPUnprocessableEntity)
+        raise PicPayApi::Errors::BadRequest, body[:message]
+      elsif response.is_a?(Net::HTTPBadRequest) || response.is_a?(Net::HTTPUnauthorized)
+        raise PicPayApi::Errors::Unauthorized, body[:message]
+      end
+
+      body
+    end
+
+    sig do
+      params(
         entity: PicPayApi::Entities::Project,
       ).returns(T::Hash[Symbol, T.untyped])
     end
-    def create_or_update(entity:)
-      if entity.project_id.nil?
-        response = PicPayApi::HTTP::Client.post!(uri: @url, payload: entity.to_h, authorization: @authorization)
-      else
-        response = PicPayApi::HTTP::Client.put!(uri: @url, payload: entity.to_h, authorization: @authorization)
-      end
-
-      body = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
+    def create(entity:)
+      response = PicPayApi::HTTP::Client.post!(uri: @url, payload: entity.to_h, authorization: @authorization)
+      body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 
       if response.is_a?(Net::HTTPServerError)
         raise PicPayApi::Errors::ServerError, body[:message]

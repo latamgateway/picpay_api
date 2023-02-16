@@ -7,6 +7,7 @@ RSpec.describe PicPayApi::Authentication do
   let(:base_url) { ENV.fetch('API_URL', 'https://api.picpay.com').freeze }
   let(:client_id) { '7461f6d2-1ac9-4daa-851f-57259c49d859' }
   let(:client_secret) { '7461f6d2-1ac9-4daa-851f-57259c49d859' }
+  let(:url) { URI.join(base_url, '/oauth2/token') }
 
   let(:authentication) do
     described_class.new(
@@ -31,8 +32,6 @@ RSpec.describe PicPayApi::Authentication do
   end
 
   describe 'manual token_request' do
-    let(:url) { URI.join(base_url, '/oauth2/token') }
-
     let(:payload) { build(:token_request).to_h }
 
     it 'performs manual token_request_success' do
@@ -63,10 +62,6 @@ RSpec.describe PicPayApi::Authentication do
     let(:refresh_token) do
       token_request_success_response_body[:refresh_token]
     end
-
-    let(:url) { URI.join(base_url, '/oauth2/token') }
-
-
     let(:payload) { build(:refresh_token_request).to_h }
 
     it 'performs manual refresh_token_request_success' do
