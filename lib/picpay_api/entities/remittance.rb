@@ -7,40 +7,21 @@ module PicPayApi
 
       extend T::Sig
 
-      sig { returns(Float) }
-      attr_accessor :value
-
-      sig { returns(String) }
-      attr_accessor :consumer, :reference_id
-
-      sig do
-        params(
-          consumer:     String,
-          value:        Float,
-          reference_id: String,
-        ).void
-      end
-      # This feature creates a transfer request, comparing the received values with the previously defined rules.
-      # The transfer is completed only if the data is in accordance with the Project settings.
-      #
-      # @param [String] consumer
+      # @!attribute consumer
+      #   @return [String]
       # CPF of the PicPay user who will receive the transfer
-      #
-      # @param [Float] value
+      prop :consumer, String
+
+      # @!attribute value
+      #   @return [Float]
       # Value to be transferred to the user
-      #
-      # @param [String] reference_id
+      prop :value, Float
+
+      # @!attribute reference_id
+      #   @return [String]
       # Unique identifier of your order. This field must always be unique.
       # This will also be the ID your store will use to view payment status.
-      def initialize(
-        consumer:,
-        value:,
-        reference_id:
-      )
-        @consumer     = consumer
-        @value        = value
-        @reference_id = reference_id
-      end
+      prop :reference_id, String
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h

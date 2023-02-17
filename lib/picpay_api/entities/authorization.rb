@@ -3,7 +3,7 @@
 
 module PicPayApi
   module Entities
-    class Authorization
+    class Authorization < T::Struct
 
       extend T::Sig
 
@@ -11,22 +11,13 @@ module PicPayApi
         bearer: 'Bearer',
       }
 
-      sig { returns(String) }
-      attr_accessor :type, :token
+      # @!attribute type
+      #   @return [String]
+      prop :type, String
 
-      sig do
-        params(
-          type:  String,
-          token: String,
-        ).void
-      end
-      def initialize(
-        type:,
-        token:
-      )
-        @token = token
-        @type  = type
-      end
+      # @!attribute token
+      #   @return [String]
+      prop :token, String
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h

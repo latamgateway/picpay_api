@@ -3,46 +3,32 @@
 
 module PicPayApi
   module Entities
-    class TokenRequest
+    class TokenRequest < T::Struct
 
       extend T::Sig
 
       SCOPE      = 'openid b2p.transfer'.freeze
       GRANT_TYPE = 'client_credentials'.freeze
 
-      sig { returns(String) }
-      attr_accessor :client_id, :client_secret, :grant_type, :scope
+      # @!attribute client_id
+      #   @return [String]
+      # CLIENT_ID sent by Picpay.
+      prop :client_id, String
 
-      #include PicPayApi::Entities::TokenRequestErrorable
+      # @!attribute client_secret
+      #   @return [String]
+      # CLIENT_SECRET sent by Picpay
+      prop :client_secret, String
 
-      sig do
-        params(
-          client_id:     String,
-          client_secret: String,
-          grant_type:    String,
-          scope:         String,
-        ).void
-      end
-      # Use this address to generate the authorization token that must be sent in the header of other requests.
-      # It is necessary to use the CLIENT_ID and CLIENT_SECRET defined in the credential provided by PicPay.
-      # Each authorization token generated will have the validity of 5 ( five ) minutes,
-      # requiring a request for a new token.
-      #
-      # @param [String] client_id CLIENT_ID sent by Picpay.
-      # @param [String] client_secret CLIENT_SECRET sent by Picpay
-      # @param [String] grant_type Inform "client_credentials".
-      # @param [String] scope By default, inform "openid b2p.transfer"
-      def initialize(
-        client_id:,
-        client_secret:,
-        grant_type: GRANT_TYPE,
-        scope: SCOPE
-      )
-        @client_id     = client_id
-        @client_secret = client_secret
-        @grant_type    = grant_type
-        @scope         = scope
-      end
+      # @!attribute grant_type
+      #   @return [String]
+      # Inform "client_credentials".
+      prop :grant_type, String, default: GRANT_TYPE
+
+      # @!attribute scope
+      #   @return [String]
+      # scope By default, inform "openid b2p.transfer"
+      prop :scope, String, default: GRANT_TYPE
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h

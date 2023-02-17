@@ -9,63 +9,37 @@ module PicPayApi
 
       extend T::Sig
 
-      sig { returns(Float) }
-      attr_accessor :value
+      # @!attribute transfer_id
+      #   @return [String] Transfer Id
+      prop :transfer_id, String
 
-      sig { returns(Integer) }
-      attr_accessor :transaction_id
+      # @!attribute status
+      #   @return [String] Transfer status
+      prop :status, String
 
-      sig { returns(String) }
-      attr_accessor :transfer_id, :status, :operacao
+      # @!attribute value
+      #   @return [Float] Transfer value
+      prop :value, Float
 
-      sig { returns(DateTime) }
-      attr_accessor :created_at, :transfered_at
+      # @!attribute transfered_at
+      #   @return [DateTime] Transfer value
+      prop :transfered_at, DateTime
 
-      sig { returns(T::Boolean) }
-      attr_accessor :erro
+      # @!attribute transaction_id
+      #   @return [Integer]
+      prop :transaction_id, Integer
 
-      sig do
-        params(
-          transfer_id:    String,
-          status:         String,
-          value:          Float,
-          transfered_at:  DateTime,
-          transaction_id: Integer,
-          created_at:     DateTime,
-          erro:           T::Boolean,
-          operacao:       String,
-        ).void
-      end
-      # Registering the Project is a required step for the Credit Referral flow.
-      # It contains all the settings that must be applied to the Shipping.
-      #
-      # @param [String] transfer_id Transfer Id
-      # @param [String] status Transfer status
-      # @param [Float] value Transfer value
-      # @param [DateTime] transfered_at
-      # @param [Integer] transaction_id
-      # @param [DateTime] created_at date of creation of the transfer
-      # @param [Boolean] erro
-      # @param [String] operacao
-      def initialize(
-        transfer_id:,
-        status:,
-        value:,
-        transfered_at:,
-        transaction_id:,
-        created_at:,
-        erro:,
-        operacao:
-      )
-        @transfer_id    = transfer_id
-        @status         = status
-        @value          = value
-        @transfered_at  = transfered_at
-        @transaction_id = transaction_id
-        @created_at     = created_at
-        @erro           = erro
-        @operacao       = operacao
-      end
+      # @!attribute created_at
+      #   @return [DateTime] Date of creation of the transfer
+      prop :created_at, DateTime
+
+      # @!attribute erro
+      #   @return [Boolean]
+      prop :erro, T::Boolean
+
+      # @!attribute operacao
+      #   @return [String]
+      prop :operacao, String
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h
