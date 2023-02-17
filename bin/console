@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
-require "battleships"
+require "picpay_api"
 require "pry"
 
 Pry.start
