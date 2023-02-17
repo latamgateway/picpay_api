@@ -20,6 +20,18 @@ module PicPayApi
           reference_id: String,
         ).void
       end
+      # This feature creates a transfer request, comparing the received values with the previously defined rules.
+      # The transfer is completed only if the data is in accordance with the Project settings.
+      #
+      # @param [String] consumer
+      # CPF of the PicPay user who will receive the transfer
+      #
+      # @param [Float] value
+      # Value to be transferred to the user
+      #
+      # @param [String] reference_id
+      # Unique identifier of your order. This field must always be unique.
+      # This will also be the ID your store will use to view payment status.
       def initialize(
         consumer:,
         value:,

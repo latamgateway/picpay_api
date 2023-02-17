@@ -23,6 +23,15 @@ module PicPayApi
           scope:         String,
         ).void
       end
+      # Use this address to generate the authorization token that must be sent in the header of other requests.
+      # It is necessary to use the CLIENT_ID and CLIENT_SECRET defined in the credential provided by PicPay.
+      # Each authorization token generated will have the validity of 5 ( five ) minutes,
+      # requiring a request for a new token.
+      #
+      # @param [String] client_id CLIENT_ID sent by Picpay.
+      # @param [String] client_secret CLIENT_SECRET sent by Picpay
+      # @param [String] grant_type Inform "client_credentials".
+      # @param [String] scope By default, inform "openid b2p.transfer"
       def initialize(
         client_id:,
         client_secret:,

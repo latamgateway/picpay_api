@@ -36,6 +36,17 @@ module PicPayApi
           operacao:       String,
         ).void
       end
+      # Registering the Project is a required step for the Credit Referral flow.
+      # It contains all the settings that must be applied to the Shipping.
+      #
+      # @param [String] transfer_id Transfer Id
+      # @param [String] status Transfer status
+      # @param [Float] value Transfer value
+      # @param [DateTime] transfered_at
+      # @param [Integer] transaction_id
+      # @param [DateTime] created_at date of creation of the transfer
+      # @param [Boolean] erro
+      # @param [String] operacao
       def initialize(
         transfer_id:,
         status:,

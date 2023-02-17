@@ -25,6 +25,9 @@ module PicPayApi
         logger:        Logger
       ).void
     end
+    # @param [String] base_url Picpay API base URL.
+    # @param [String] client_id CLIENT_ID sent by Picpay.
+    # @param [String] client_secret CLIENT_SECRET sent by Picpay
     def initialize(
       base_url:,
       client_id:,
@@ -40,6 +43,10 @@ module PicPayApi
     end
 
     sig { returns(T.untyped) }
+    # Use this address to generate the authorization token that must be sent in the header of other requests.
+    # It is necessary to use the CLIENT_ID and CLIENT_SECRET defined in the credential provided by PicPay.
+    # Each authorization token generated will have the validity of 5 ( five ) minutes,
+    # requiring a request for a new token.
     def token_request
       token_request = PicPayApi::Entities::TokenRequest.new(
         client_id:     @client_id,
@@ -49,6 +56,14 @@ module PicPayApi
     end
 
     sig { params(refresh_token: String).returns(T.untyped) }
+    # We recommend generating a new token only when the previous one expires,
+    # since the creation of a new token invalidates the previous one
+    # and this can result in a competition problem between requests.
+    #
+    # To update the token just change the value of the grant_type parameter to "refresh_token"
+    # and add the field refresh_token such as that received in response to the first request.
+    #
+    # @param [String] refresh_token Received after requesting an "access token"
     def refresh_token_request(refresh_token:)
       refresh_token_request = PicPayApi::Entities::RefreshTokenRequest.new(
         client_id:     @client_id,
@@ -60,13 +75,15 @@ module PicPayApi
 
     private
 
+    sig do
+      params(
+        entity: T.any(PicPayApi::Entities::TokenRequest, PicPayApi::Entities::RefreshTokenRequest)
+      ).returns(T.untyped)
+    end
+    # @param [PicPayApi::Entities::TokenRequest, PicPayApi::Entities::RefreshTokenRequest] entity
     def request!(entity:)
       response = PicPayApi::HTTP::Client.post!(uri: @url, payload: entity.to_h)
       body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
-
-
-      puts response.inspect
-
 
       unless response.is_a?(Net::HTTPSuccess)
         raise PicPayApi::Errors::Authentication, body[:error_description]

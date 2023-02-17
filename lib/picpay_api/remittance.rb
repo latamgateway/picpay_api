@@ -28,6 +28,9 @@ module PicPayApi
         logger:        Logger
       ).void
     end
+    # @param [String] base_url Picpay API base URL.
+    # @param [PicPayApi::Entities::Authorization] authorization Authorization Entity
+    # @param [String] reference_id REFERENCE_ID sent by Picpay
     def initialize(
       base_url:,
       authorization:,
@@ -40,13 +43,17 @@ module PicPayApi
       @reference_id  = reference_id
     end
 
-
+    sig do
+      params(
+        entity: PicPayApi::Entities::Remittance,
+      ).returns(T::Hash[Symbol, T.untyped])
+    end
+    # This feature creates a transfer request, comparing the received values with the previously defined rules.
+    # The transfer is completed only if the data is in accordance with the Project settings.
+    #
+    # @param [PicPayApi::Entities::Remittance] entity Remittance Entity with loaded data
     def transfer(entity:)
-      if entity.project_id.nil?
-        response = PicPayApi::HTTP::Client.post!(uri: @url, payload: entity.to_h, authorization: @authorization)
-      else
-        response = PicPayApi::HTTP::Client.put!(uri: @url, payload: entity.to_h, authorization: @authorization)
-      end
+      response = PicPayApi::HTTP::Client.post!(uri: @url, payload: entity.to_h, authorization: @authorization)
 
       body = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 

@@ -28,6 +28,9 @@ module PicPayApi
         logger:        Logger
       ).void
     end
+    # @param [String] base_url Picpay API base URL.
+    # @param [PicPayApi::Entities::Authorization] authorization Authorization Entity
+    # @param [String] reference_id REFERENCE_ID sent by Picpay
     def initialize(
       base_url:,
       authorization:,
@@ -41,6 +44,7 @@ module PicPayApi
     end
 
     sig { returns(T::Hash[Symbol, T.untyped]) }
+    # Resource made available by consulting a Reference ID Transfer
     def get
       response = PicPayApi::HTTP::Client.get!(uri: @url, authorization: @authorization)
 

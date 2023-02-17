@@ -30,11 +30,11 @@ module PicPayApi
 
       sig do
         params(
-          name:                       String,
-          description:                String,
-          started_at:                 Date,
-          ended_at:                   DateTime,
-          withdrawable:               T::Boolean,
+          name:                       T.nilable(String),
+          description:                T.nilable(String),
+          started_at:                 T.nilable(Date),
+          ended_at:                   T.nilable(DateTime),
+          withdrawable:               T.nilable(T::Boolean),
           payee_transaction_limit:    Integer,
           payee_transaction_value:    Float,
           identical_transaction_rule: T::Boolean,
@@ -44,15 +44,59 @@ module PicPayApi
           project_id:                 T.nilable(String),
         ).void
       end
+      # @param [nil, String] name (default: nil)
+      # Project identifier, visible only to the account that creates the project
+      #
+      # @param [nil, String] description (default: nil)
+      # Project description, visible only to the account that creates the project
+      #
+      # @param [nil, Date] started_at (default: nil)
+      # Start date of payments related to the Credit Referral. If not informed, the rule will not apply
+      #
+      # @param [nil, DateTime] ended_at (default: nil)
+      # Maximum payment date related to Credit Referral. If not informed, the rule will not apply
+      # According to the example, requests after 3 pm on 06/01/2021 would not be completed.
+      #
+      # @param [Boolean] withdrawable (default: true)
+      # Defines the balance type:
+      #   - If true, the balance will be withdrawable, that is,
+      #     the user will be able to transfer the amount to bank account and / or make withdrawals in 24h cashiers
+      #   - If the defined value is false the balance will not be withdrawable and the user will
+      #     be able to use the balance only within the Picpay application
+      #
+      # @param [nil, Integer] payee_transaction_limit (default: nil)
+      # Total number of transfers allowed for the same CPF. If not informed, the rule will not apply
+      #
+      # @param [nil, Float] payee_transaction_value (default: nil)
+      # Maximum value to be transferred to a given CPF per request. If not informed, the rule will not be applied.
+      # For example, a given CPF could receive up to two payments and each payment
+      # with a maximum value of R $ 50.25, totaling R $ 100.50.
+      #
+      # @param [Boolean] identical_transaction_rule (default: true)
+      # Defines whether anti-bot validation should be active or not.
+      # When enabled, this validation considers all repeated requests for the
+      # same CPF to be invalid, with the same value, within two minutes
+      #
+      # @param [nil, String] payer_email (default: nil)
+      # Payer Email - used to map the response
+      #
+      # @param [nil, String] created_at (default: nil)
+      # Created At - used to map the response
+      #
+      # @param [nil, String] updated_at (default: nil)
+      # Updated At - used to map the response
+      #
+      # @param [nil, String] project_id (default: nil)
+      # Project ID - used to map the response
       def initialize(
-        name:,
-        description:,
-        started_at:,
-        ended_at:,
-        withdrawable:,
-        payee_transaction_limit:,
-        payee_transaction_value:,
-        identical_transaction_rule:,
+        name: nil,
+        description: nil,
+        started_at: nil,
+        ended_at: nil,
+        withdrawable: true,
+        payee_transaction_limit:nil,
+        payee_transaction_value:nil,
+        identical_transaction_rule:true,
         payer_email: nil,
         created_at: nil,
         updated_at: nil,
