@@ -7,7 +7,7 @@ RSpec.describe PicPayApi::Project do
   let(:base_url) { ENV.fetch('PICPAY_API_URL', 'https://api.picpay.com').freeze }
   let(:url) { URI.join(base_url, '/b2p/v2/projects') }
   let(:authorization) { build(:authorization) }
-  let(:project_id) { ENV['PROJECT_ID'] }
+  let(:project_id) { ENV['PICPAY_PROJECT_ID'] }
 
   let(:project) do
     described_class.new(

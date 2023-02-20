@@ -4,15 +4,15 @@
 RSpec.describe PicPayApi::Entities::Remittance do
   describe 'Object' do
 
-    let!(:reference_id) { '3914d09f-c702-45e9-a9c7-1ae92dbda0d5' }
-    let!(:consumer) { '00011122200' }
-    let!(:value) { 99.99 }
+    let!(:reference_id) { ENV['PICPAY_REFERENCE_ID'] }
+    let!(:consumer) { ENV['PICPAY_REMITTANCE_CONSUMER'].to_s }
+    let!(:value) { ENV['PICPAY_REMITTANCE_VALUE'].to_f }
 
     context 'attributes' do
       it 'has attr_accessors' do
         remittance = described_class.new(
-          consumer:     consumer.to_s,
-          value:        value.to_f,
+          consumer:     consumer,
+          value:        value,
           reference_id: reference_id,
         )
 
@@ -30,13 +30,13 @@ RSpec.describe PicPayApi::Entities::Remittance do
     context 'initialization' do
       it 'is initialized with correct values' do
         remittance = described_class.new(
-          consumer:     consumer.to_s,
-          value:        value.to_f,
+          consumer:     consumer,
+          value:        value,
           reference_id: reference_id,
         )
 
-        expect(remittance.consumer).to eq(consumer.to_s)
-        expect(remittance.value).to eq(value.to_f)
+        expect(remittance.consumer).to eq(consumer)
+        expect(remittance.value).to eq(value)
         expect(remittance.reference_id).to eq(reference_id)
       end
     end

@@ -9,7 +9,7 @@ module PicPayApi
 
       TYPES = {
         bearer: 'Bearer',
-      }
+      }.freeze
 
       # @!attribute type
       #   @return [String]
@@ -28,7 +28,7 @@ module PicPayApi
       end
 
       def to_s
-        TYPES[:"#{@type}"] + ' ' + @token
+        "#{TYPES[@type.to_sym]}\s#{@token}"
       end
 
     end

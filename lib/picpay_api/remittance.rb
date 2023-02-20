@@ -53,20 +53,16 @@ module PicPayApi
     #
     # @param [PicPayApi::Entities::Remittance] entity Remittance Entity with loaded data
     def transfer(entity:)
-      response = PicPayApi::HTTP::Client.post!(uri: @url, payload: entity.to_h, authorization: @authorization)
+      response = PicPayApi::HTTP::Client.post(uri: @url, payload: entity.to_h, authorization: @authorization)
 
       body = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 
-      if response.is_a?(Net::HTTPServerError)
-        raise PicPayApi::Errors::ServerError, body[:message]
-      elsif response.is_a?(Net::HTTPUnprocessableEntity)
-        raise PicPayApi::Errors::BadRequest, body[:message]
-      elsif response.is_a?(Net::HTTPBadRequest) || response.is_a?(Net::HTTPUnauthorized)
-        raise PicPayApi::Errors::Unauthorized, body[:message]
-      end
+      error!(response: response, body: body)
 
       body
     end
+
+    include PicPayApi::Errors::Error
 
   end
 end

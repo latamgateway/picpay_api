@@ -46,21 +46,16 @@ module PicPayApi
     sig { returns(T::Hash[Symbol, T.untyped]) }
     # Resource made available by consulting a Reference ID Transfer
     def get
-      response = PicPayApi::HTTP::Client.get!(uri: @url, authorization: @authorization)
+      response = PicPayApi::HTTP::Client.get(uri: @url, authorization: @authorization)
 
       body = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 
-      if response.is_a?(Net::HTTPServerError)
-        raise PicPayApi::Errors::ServerError, body[:message]
-      elsif response.is_a?(Net::HTTPUnprocessableEntity)
-        raise PicPayApi::Errors::BadRequest, body[:message]
-      elsif response.is_a?(Net::HTTPBadRequest) || response.is_a?(Net::HTTPUnauthorized)
-        raise PicPayApi::Errors::Unauthorized, body[:message]
-      end
+      error!(response: response, body: body)
 
       body
-
     end
+
+    include PicPayApi::Errors::Error
 
   end
 end

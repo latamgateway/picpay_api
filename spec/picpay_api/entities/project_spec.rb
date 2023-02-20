@@ -6,22 +6,22 @@ require 'time'
 RSpec.describe PicPayApi::Entities::Project do
   describe 'Object' do
 
-    let!(:name) { 'Lorem ipsum' }
-    let!(:description) { 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' }
-    let!(:started_at) { '2021-01-01' }
-    let!(:ended_at) { '2021-01-01' }
-    let!(:withdrawable) { true }
-    let!(:payee_transaction_limit) { 2 }
-    let!(:payee_transaction_value) { 50.25 }
-    let!(:identical_transaction_rule) { false }
+    let!(:name) { ENV['PICPAY_PROJECT_NAME'] }
+    let!(:description) { ENV['PICPAY_PROJECT_DESCRIPTION'] }
+    let!(:started_at) { Date.parse(ENV['PICPAY_PROJECT_STARTED_AT']) }
+    let!(:ended_at) { DateTime.parse(ENV['PICPAY_PROJECT_ENDED_AT']) }
+    let!(:withdrawable) { !!ENV['PICPAY_PROJECT_WITHDRAWABLE'] }
+    let!(:payee_transaction_limit) { ENV['PICPAY_PROJECT_PAYEE_TRANSACTION_LIMIT'].to_i }
+    let!(:payee_transaction_value) { ENV['PICPAY_PROJECT_PAYEE_TRANSACTION_VALUE'].to_f }
+    let!(:identical_transaction_rule) { !!ENV['PICPAY_PROJECT_IDENTICAL_TRANSACTION_RULE'] }
 
     context 'attributes' do
       it 'has attr_accessors' do
         project = described_class.new(
           name:                       name,
           description:                description,
-          started_at:                 Date.parse(started_at),
-          ended_at:                   DateTime.parse(started_at),
+          started_at:                 started_at,
+          ended_at:                   ended_at,
           withdrawable:               withdrawable,
           payee_transaction_limit:    payee_transaction_limit,
           payee_transaction_value:    payee_transaction_value,
@@ -54,8 +54,8 @@ RSpec.describe PicPayApi::Entities::Project do
         project = described_class.new(
           name:                       name,
           description:                description,
-          started_at:                 Date.parse(started_at),
-          ended_at:                   DateTime.parse(started_at),
+          started_at:                 started_at,
+          ended_at:                   ended_at,
           withdrawable:               withdrawable,
           payee_transaction_limit:    payee_transaction_limit,
           payee_transaction_value:    payee_transaction_value,
@@ -64,8 +64,8 @@ RSpec.describe PicPayApi::Entities::Project do
 
         expect(project.name).to eq(name)
         expect(project.description).to eq(description)
-        expect(project.started_at).to eq(Date.parse(started_at))
-        expect(project.ended_at).to eq(DateTime.parse(ended_at))
+        expect(project.started_at).to eq(started_at)
+        expect(project.ended_at).to eq(ended_at)
         expect(project.withdrawable).to eq(withdrawable)
         expect(project.payee_transaction_limit).to eq(payee_transaction_limit)
         expect(project.payee_transaction_value).to eq(payee_transaction_value)

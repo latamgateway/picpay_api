@@ -81,7 +81,7 @@ module PicPayApi
     end
     # @param [PicPayApi::Entities::TokenRequest, PicPayApi::Entities::RefreshTokenRequest] entity
     def request!(entity:)
-      response = PicPayApi::HTTP::Client.post!(uri: @url, payload: entity.to_h)
+      response = PicPayApi::HTTP::Client.post(uri: @url, payload: entity.to_h)
       body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
 
       unless response.is_a?(Net::HTTPSuccess)
