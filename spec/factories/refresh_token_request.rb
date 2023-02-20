@@ -3,9 +3,9 @@
 
 FactoryBot.define do
   factory :refresh_token_request, class: PicPayApi::Entities::RefreshTokenRequest do
-    client_id { ENV['CLIENT_ID'] }
-    client_secret { ENV['CLIENT_SECRET'] }
-    refresh_token { ENV['REFRESH_TOKEN'] }
+    client_id { ENV['PICPAY_CLIENT_ID'] }
+    client_secret { ENV['PICPAY_CLIENT_SECRET'] }
+    refresh_token { ENV['PICPAY_REFRESH_TOKEN'] }
     initialize_with do
       new(
         client_id: client_id,

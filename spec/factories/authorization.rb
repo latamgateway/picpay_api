@@ -3,8 +3,8 @@
 
 FactoryBot.define do
   factory :authorization, class: PicPayApi::Entities::Authorization do
-    type { ENV['TOKEN_TYPE'] }
-    token { ENV['ACCESS_TOKEN'] }
+    type { ENV['PICPAY_TOKEN_TYPE'] }
+    token { ENV['PICPAY_ACCESS_TOKEN'] }
     initialize_with do
       new(
         type: type,

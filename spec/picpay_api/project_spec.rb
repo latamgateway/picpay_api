@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 RSpec.describe PicPayApi::Project do
-  let(:base_url) { ENV.fetch('API_URL', 'https://api.picpay.com').freeze }
+  let(:base_url) { ENV.fetch('PICPAY_API_URL', 'https://api.picpay.com').freeze }
   let(:url) { URI.join(base_url, '/b2p/v2/projects') }
   let(:authorization) { build(:authorization) }
   let(:project_id) { ENV['PROJECT_ID'] }

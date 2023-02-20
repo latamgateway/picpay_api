@@ -35,7 +35,6 @@ module PicPayApi
       logger: Logger.new(STDOUT)
     )
       @logger        = logger
-      base_url       = base_url.chop if base_url[-1] === '/'
       @url           = T.let(URI.join(base_url, '/oauth2/token'), URI::Generic)
       @client_id     = client_id
       @client_secret = client_secret

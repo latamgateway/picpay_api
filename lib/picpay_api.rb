@@ -10,5 +10,5 @@ end
 # This module will contain all functionalities used to wrap FitBank REST API
 module PicPayApi
   extend T::Sig
-  API_URL = T.let(ENV.fetch('API_URL', 'https://api.picpay.com').freeze, String)
+  API_URL = T.let(ENV.fetch('PICPAY_API_URL', 'https://api.picpay.com').freeze, String)
 end

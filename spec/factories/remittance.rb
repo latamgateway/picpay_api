@@ -3,7 +3,7 @@
 
 FactoryBot.define do
   factory :remittance, class: PicPayApi::Entities::Remittance do
-    reference_id { ENV['REFERENCE_ID'] }
+    reference_id { ENV['PICPAY_REFERENCE_ID'] }
     consumer { ENV['REMITTANCE_CONSUMER'] }
     value { ENV['REMITTANCE_VALUE'] }
 
