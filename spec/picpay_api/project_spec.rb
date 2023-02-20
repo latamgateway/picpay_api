@@ -42,8 +42,14 @@ RSpec.describe PicPayApi::Project do
         .to_return(body: project_create_success_response_body.to_json, status: 200)
 
       response = project.create(entity: entity)
+      expect(response).to be_instance_of(PicPayApi::Entities::AuthenticationResponse)
+
+
+      its(:attributes) { should include("project_id") }
 
     end
+
+    its(:attributes) { should include("project_id") }
 
     it "should include the :project_id attribute" do
       response = project.create(entity: entity)
