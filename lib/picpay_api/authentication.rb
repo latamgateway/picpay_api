@@ -41,7 +41,7 @@ module PicPayApi
 
     end
 
-    sig { returns(T.untyped) }
+    sig { returns(PicPayApi::Entities::AuthenticationResponse) }
     # Use this address to generate the authorization token that must be sent in the header of other requests.
     # It is necessary to use the CLIENT_ID and CLIENT_SECRET defined in the credential provided by PicPay.
     # Each authorization token generated will have the validity of 5 ( five ) minutes,
@@ -51,10 +51,12 @@ module PicPayApi
         client_id:     @client_id,
         client_secret: @client_secret
       )
-      request!(entity: token_request)
+      body = request!(entity: token_request)
+
+      PicPayApi::Entities::AuthenticationResponse.from_h(hash: body)
     end
 
-    sig { params(refresh_token: String).returns(T.untyped) }
+    sig { params(refresh_token: String).returns(PicPayApi::Entities::AuthenticationResponse) }
     # We recommend generating a new token only when the previous one expires,
     # since the creation of a new token invalidates the previous one
     # and this can result in a competition problem between requests.
@@ -69,7 +71,9 @@ module PicPayApi
         client_secret: @client_secret,
         refresh_token: refresh_token
       )
-      request!(entity: refresh_token_request)
+      body = request!(entity: refresh_token_request)
+
+      PicPayApi::Entities::AuthenticationResponse.from_h(hash: body)
     end
 
     private

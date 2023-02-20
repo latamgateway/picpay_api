@@ -35,7 +35,7 @@ RSpec.describe PicPayApi::Authentication do
         .with(body: payload.to_json)
         .to_return(body: token_request_success_response_body.to_json, status: 200)
 
-      response = authentication.token_request
+      response = authentication.token_request.to_h
 
       expect(response).to have_key(:access_token)
       expect(response).to have_key(:expires_in)
@@ -65,7 +65,7 @@ RSpec.describe PicPayApi::Authentication do
         .with(body: payload.to_json)
         .to_return(body: token_request_success_response_body.to_json, status: 200)
 
-      response = authentication.refresh_token_request(refresh_token: refresh_token)
+      response = authentication.refresh_token_request(refresh_token: refresh_token).to_h
 
       expect(response).to have_key(:access_token)
       expect(response).to have_key(:expires_in)

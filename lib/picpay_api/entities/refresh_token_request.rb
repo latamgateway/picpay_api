@@ -39,6 +39,16 @@ module PicPayApi
         }
       end
 
+      sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::RefreshTokenRequest) }
+      def self.from_h(hash:)
+        PicPayApi::Entities::RefreshTokenRequest.new(
+          client_id:     hash[:client_id],
+          client_secret: hash[:client_secret],
+          refresh_token: hash[:refresh_token],
+          grant_type:    hash.fetch(:grant_type, GRANT_TYPE),
+        )
+      end
+
     end
   end
 end

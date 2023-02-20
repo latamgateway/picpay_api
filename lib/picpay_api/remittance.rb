@@ -46,7 +46,7 @@ module PicPayApi
     sig do
       params(
         entity: PicPayApi::Entities::Remittance,
-      ).returns(T::Hash[Symbol, T.untyped])
+      ).returns(PicPayApi::Entities::Remittance)
     end
     # This feature creates a transfer request, comparing the received values with the previously defined rules.
     # The transfer is completed only if the data is in accordance with the Project settings.
@@ -59,7 +59,7 @@ module PicPayApi
 
       error!(response: response, body: body)
 
-      body
+      PicPayApi::Entities::Remittance.from_h(hash: body)
     end
 
     include PicPayApi::Errors::Error

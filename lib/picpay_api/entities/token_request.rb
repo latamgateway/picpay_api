@@ -28,7 +28,7 @@ module PicPayApi
       # @!attribute scope
       #   @return [String]
       # scope By default, inform "openid b2p.transfer"
-      prop :scope, String, default: GRANT_TYPE
+      prop :scope, String, default: SCOPE
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h
@@ -38,6 +38,16 @@ module PicPayApi
           client_id:     @client_id,
           client_secret: @client_secret,
         }
+      end
+
+      sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::TokenRequest) }
+      def self.from_h(hash:)
+        PicPayApi::Entities::TokenRequest.new(
+          client_id:     hash[:client_id],
+          client_secret: hash[:client_secret],
+          grant_type:    hash.fetch(:grant_type, GRANT_TYPE),
+          scope:         hash.fetch(:scope, SCOPE),
+        )
       end
 
     end

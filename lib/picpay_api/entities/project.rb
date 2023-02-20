@@ -97,8 +97,8 @@ module PicPayApi
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::Project) }
       def self.from_h(hash:)
         PicPayApi::Entities::Project.new(
-          name:                       hash[:name].to_s,
-          description:                hash[:description].to_s,
+          name:                       hash.fetch(:name, nil).to_s,
+          description:                hash.fetch(:description, nil).to_s,
           started_at:                 Date.parse(hash[:started_at].to_s),
           ended_at:                   DateTime.parse(hash[:started_at].to_s),
           withdrawable:               (!!hash[:withdrawable]),

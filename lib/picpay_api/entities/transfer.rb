@@ -65,7 +65,7 @@ module PicPayApi
           transaction_id: hash[:transaction_id].to_i,
           created_at:     DateTime.parse(hash[:created_at]),
           erro:           (!!hash[:erro]),
-          operacao:       hash[:operacao].to_s
+          operacao:       hash[:operacao].to_s,
         )
       end
 

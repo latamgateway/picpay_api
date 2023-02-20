@@ -52,7 +52,7 @@ module PicPayApi
     sig do
       params(
         entity: PicPayApi::Entities::Project,
-      ).returns(T::Hash[Symbol, T.untyped])
+      ).returns(PicPayApi::Entities::Project)
     end
     # Registering the Project is a required step for the Credit Referral flow.
     # It contains all the settings that must be applied to the Shipping.
@@ -64,14 +64,14 @@ module PicPayApi
 
       error!(response: response, body: body)
 
-      body
+      PicPayApi::Entities::Project.from_h(hash: body)
     end
 
     sig do
       params(
         project_id: String,
         entity:     PicPayApi::Entities::Project,
-      ).returns(T::Hash[Symbol, T.untyped])
+      ).returns(PicPayApi::Entities::Project)
     end
     # Resource available to update the settings of the Credit Referral Project.
     #
@@ -85,7 +85,7 @@ module PicPayApi
 
       error!(response: response, body: body)
 
-      body
+      PicPayApi::Entities::Project.from_h(hash: body)
     end
 
     include PicPayApi::Errors::Error

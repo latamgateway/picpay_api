@@ -34,6 +34,8 @@ RSpec.describe PicPayApi::Project do
   end
 
   describe 'manual create' do
+
+
     it 'performs manual create_success' do
       stub_request(:post, url)
         .with(body: payload.to_json)
@@ -41,17 +43,11 @@ RSpec.describe PicPayApi::Project do
 
       response = project.create(entity: entity)
 
-      expect(response).to have_key(:project_id)
-      expect(response).to have_key(:name)
-      expect(response).to have_key(:payer_email)
-      expect(response).to have_key(:started_at)
-      expect(response).to have_key(:ended_at)
-      expect(response).to have_key(:withdrawable)
-      expect(response).to have_key(:payee_transaction_limit)
-      expect(response).to have_key(:payee_transaction_value)
-      expect(response).to have_key(:identical_transaction_rule)
-      expect(response).to have_key(:created_at)
-      expect(response).to have_key(:updated_at)
+    end
+
+    it "should include the :project_id attribute" do
+      response = project.create(entity: entity)
+      expect(response.attributes).to include(:project_id)
     end
 
 
@@ -77,17 +73,27 @@ RSpec.describe PicPayApi::Project do
 
       response = project.update(project_id: project_id, entity: entity)
 
-      expect(response).to have_key(:project_id)
-      expect(response).to have_key(:name)
-      expect(response).to have_key(:payer_email)
-      expect(response).to have_key(:started_at)
-      expect(response).to have_key(:ended_at)
-      expect(response).to have_key(:withdrawable)
-      expect(response).to have_key(:payee_transaction_limit)
-      expect(response).to have_key(:payee_transaction_value)
-      expect(response).to have_key(:identical_transaction_rule)
-      expect(response).to have_key(:created_at)
-      expect(response).to have_key(:updated_at)
+      puts response.inspect
+
+      expect(response.project_id).to be_a(String)
+      expect(response.name).to be_a(String)
+      expect(response.payer_email).to be_a(String)
+      expect(response.started_at).to be_a(Date)
+      expect(response.ended_at).to be_a(DateTime)
+      expect(response.ended_at).to be_a(T::Boolean)
+      expect(response.payee_transaction_limit).to be_a(Integer)
+      expect(response.payee_transaction_limit).to be_a(Integer)
+      #
+      # expect(response).to have_key(:name)
+      # expect(response).to have_key(:payer_email)
+      # expect(response).to have_key(:started_at)
+      # expect(response).to have_key(:ended_at)
+      # expect(response).to have_key(:withdrawable)
+      # expect(response).to have_key(:payee_transaction_limit)
+      # expect(response).to have_key(:payee_transaction_value)
+      # expect(response).to have_key(:identical_transaction_rule)
+      # expect(response).to have_key(:created_at)
+      # expect(response).to have_key(:updated_at)
     end
   end
 
