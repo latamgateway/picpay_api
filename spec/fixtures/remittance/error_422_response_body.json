@@ -1,0 +1,13 @@
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "value": [
+      "Required inform the amount to be transferred",
+      "validation.numeric"
+    ],
+    "consumer": [
+      "Required inform the CPF of the beneficiary",
+      "validation.string"
+    ]
+  }
+}

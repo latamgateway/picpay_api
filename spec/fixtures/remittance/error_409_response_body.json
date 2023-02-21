@@ -1,0 +1,4 @@
+{
+  "message": "This reference_id already exists.",
+  "error_type": "DUPLICATED_CORRELATION_ID"
+}

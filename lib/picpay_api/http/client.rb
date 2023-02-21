@@ -17,7 +17,7 @@ module PicPayApi
             uri:           URI::Generic,
             payload:       T.nilable(T::Hash[Symbol, T.untyped]),
             authorization: T.nilable(PicPayApi::Entities::Authorization),
-          ).returns(T.untyped)
+          ).returns(T::Hash[Symbol, T.untyped])
         end
         def get(uri:, payload: nil, authorization: nil)
           request!(uri: uri, request: Net::HTTP::Get.new(uri), payload: payload, authorization: authorization)
@@ -28,7 +28,7 @@ module PicPayApi
             uri:           URI::Generic,
             payload:       T.nilable(T::Hash[Symbol, T.untyped]),
             authorization: T.nilable(PicPayApi::Entities::Authorization),
-          ).returns(T.untyped)
+          ).returns(T::Hash[Symbol, T.untyped])
         end
         def post(uri:, payload: nil, authorization: nil)
           request!(uri: uri, request: Net::HTTP::Post.new(uri), payload: payload, authorization: authorization)
@@ -39,7 +39,7 @@ module PicPayApi
             uri:           URI::Generic,
             payload:       T::Hash[Symbol, T.untyped],
             authorization: T.nilable(PicPayApi::Entities::Authorization),
-          ).returns(T.untyped)
+          ).returns(T::Hash[Symbol, T.untyped])
         end
         def put(uri:, payload:, authorization: nil)
           request!(uri: uri, request: Net::HTTP::Put.new(uri), payload: payload, authorization: authorization)

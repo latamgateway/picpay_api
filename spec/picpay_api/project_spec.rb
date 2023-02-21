@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-extend T::Sig
 
 RSpec.describe PicPayApi::Project do
   let(:base_url) { ENV.fetch('PICPAY_API_URL', 'https://api.picpay.com').freeze }
@@ -27,6 +26,13 @@ RSpec.describe PicPayApi::Project do
     )
   end
 
+  let(:project_data_response_body) do
+    JSON.parse(
+      File.read('./spec/fixtures/project/data_response_body.json'),
+      symbolize_names: true
+    )
+  end
+
   let(:project_error_400_response_body) do
     JSON.parse(
       File.read('./spec/fixtures/project/error_400_response_body.json'),
@@ -37,6 +43,13 @@ RSpec.describe PicPayApi::Project do
   let(:project_error_401_response_body) do
     JSON.parse(
       File.read('./spec/fixtures/project/error_401_response_body.json'),
+      symbolize_names: true
+    )
+  end
+
+  let(:project_error_404_response_body) do
+    JSON.parse(
+      File.read('./spec/fixtures/project/error_404_response_body.json'),
       symbolize_names: true
     )
   end
@@ -55,8 +68,57 @@ RSpec.describe PicPayApi::Project do
     )
   end
 
+  describe 'manual get' do
+    it 'performs manual get success' do
+      stub_request(:get, url)
+        .with(body: '')
+        .to_return(body: project_data_response_body.to_json, status: 200)
+
+      response = project.get
+
+      expect(response).to have_key(:data)
+      expect(response).to have_key(:total)
+      expect(response).to have_key(:current_page)
+      expect(response).to have_key(:last_page)
+      expect(response).to have_key(:per_page)
+    end
+
+    it 'performs manual get failure 400' do
+      stub_request(:get, url)
+        .with(body: '')
+        .to_return(body: project_error_400_response_body.to_json, status: 400)
+
+      expect { project.get }.to raise_error(Net::HTTPBadRequest::EXCEPTION_TYPE)
+    end
+
+    it 'performs manual get failure 401' do
+      stub_request(:get, url)
+        .with(body: '')
+        .to_return(body: project_error_401_response_body.to_json, status: 401)
+
+      expect { project.get }.to raise_error(Net::HTTPUnauthorized::EXCEPTION_TYPE)
+    end
+
+    it 'performs manual get failure 422' do
+      stub_request(:get, url)
+        .with(body: '')
+        .to_return(body: project_error_422_response_body.to_json, status: 422)
+
+      expect { project.get }.to raise_error(Net::HTTPUnprocessableEntity::EXCEPTION_TYPE)
+    end
+
+    it 'performs manual get failure 503' do
+      stub_request(:get, url)
+        .with(body: '')
+        .to_return(body: project_error_503_response_body.to_json, status: 503)
+
+      expect { project.get }.to raise_error(Net::HTTPServiceUnavailable::EXCEPTION_TYPE)
+    end
+  end
+
+
   describe 'manual create' do
-    it 'performs manual create_success' do
+    it 'performs manual create success' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: project_success_response_body.to_json, status: 200)
@@ -66,7 +128,7 @@ RSpec.describe PicPayApi::Project do
       expect(response).to be_instance_of(PicPayApi::Entities::Project)
     end
 
-    it 'performs manual create_failure_400' do
+    it 'performs manual create failure 400' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: project_error_400_response_body.to_json, status: 400)
@@ -74,7 +136,7 @@ RSpec.describe PicPayApi::Project do
       expect { project.create(entity: entity) }.to raise_error(Net::HTTPBadRequest::EXCEPTION_TYPE)
     end
 
-    it 'performs manual create_failure_401' do
+    it 'performs manual create failure 401' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: project_error_401_response_body.to_json, status: 401)
@@ -82,7 +144,7 @@ RSpec.describe PicPayApi::Project do
       expect { project.create(entity: entity) }.to raise_error(Net::HTTPUnauthorized::EXCEPTION_TYPE)
     end
 
-    it 'performs manual create_failure_422' do
+    it 'performs manual create failure 422' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: project_error_422_response_body.to_json, status: 422)
@@ -90,7 +152,7 @@ RSpec.describe PicPayApi::Project do
       expect { project.create(entity: entity) }.to raise_error(Net::HTTPUnprocessableEntity::EXCEPTION_TYPE)
     end
 
-    it 'performs manual create_failure_503' do
+    it 'performs manual create failure 503' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: project_error_503_response_body.to_json, status: 503)
@@ -100,7 +162,7 @@ RSpec.describe PicPayApi::Project do
   end
 
   describe 'manual update' do
-    it 'performs manual update_success' do
+    it 'performs manual update success' do
       stub_request(:put, url)
         .with(body: { project_id: project_id }.merge!(payload).to_json)
         .to_return(body: project_success_response_body.to_json, status: 200)
@@ -108,6 +170,38 @@ RSpec.describe PicPayApi::Project do
       response = project.update(project_id: project_id, entity: entity)
 
       expect(response).to be_instance_of(PicPayApi::Entities::Project)
+    end
+
+    it 'performs manual update failure 401' do
+      stub_request(:put, url)
+        .with(body: { project_id: project_id }.merge!(payload).to_json)
+        .to_return(body: project_error_401_response_body.to_json, status: 401)
+
+      expect { project.update(project_id: project_id, entity: entity) }.to raise_error(Net::HTTPUnauthorized::EXCEPTION_TYPE)
+    end
+
+    it 'performs manual update failure 404' do
+      stub_request(:put, url)
+        .with(body: { project_id: project_id }.merge!(payload).to_json)
+        .to_return(body: project_error_404_response_body.to_json, status: 404)
+
+      expect { project.update(project_id: project_id, entity: entity) }.to raise_error(Net::HTTPNotFound::EXCEPTION_TYPE)
+    end
+
+    it 'performs manual update failure 422' do
+      stub_request(:put, url)
+        .with(body: { project_id: project_id }.merge!(payload).to_json)
+        .to_return(body: project_error_422_response_body.to_json, status: 422)
+
+      expect { project.update(project_id: project_id, entity: entity) }.to raise_error(Net::HTTPUnprocessableEntity::EXCEPTION_TYPE)
+    end
+
+    it 'performs manual update failure 503' do
+      stub_request(:put, url)
+        .with(body: { project_id: project_id }.merge!(payload).to_json)
+        .to_return(body: project_error_503_response_body.to_json, status: 503)
+
+      expect { project.update(project_id: project_id, entity: entity) }.to raise_error(Net::HTTPServiceUnavailable::EXCEPTION_TYPE)
     end
   end
 

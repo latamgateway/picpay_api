@@ -43,10 +43,11 @@ module PicPayApi
       @reference_id  = reference_id
     end
 
-    sig { returns(T::Hash[Symbol, T.untyped]) }
+    sig { returns(PicPayApi::Entities::Transfer) }
     # Resource made available by consulting a Reference ID Transfer
     def get
-      PicPayApi::HTTP::Client.get(uri: @url, authorization: @authorization)
+      body = PicPayApi::HTTP::Client.get(uri: @url, authorization: @authorization)
+      PicPayApi::Entities::Transfer.from_h(hash: body)
     end
   end
 end

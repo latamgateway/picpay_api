@@ -1,0 +1,4 @@
+{
+  "message": "Consumer not found",
+  "error_type": "INVALID_PAYEE_REGISTRATION_DATA"
+}

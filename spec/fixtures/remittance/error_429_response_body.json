@@ -1,0 +1,4 @@
+{
+  "message": "Transaction refused by \"Identical transaction violation\". Try again in a few minutes.",
+  "error_type": "IDENTICAL_TRANSACTION_VIOLATION"
+}

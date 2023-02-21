@@ -30,7 +30,7 @@ RSpec.describe PicPayApi::Authentication do
   describe 'manual token_request' do
     let(:payload) { build(:token_request).to_h }
 
-    it 'performs manual token_request_success' do
+    it 'performs manual token_request success' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: token_request_success_response_body.to_json, status: 200)
@@ -44,7 +44,7 @@ RSpec.describe PicPayApi::Authentication do
       expect(response).to have_key(:token_type)
     end
 
-    it 'performs manual token_request_failure' do
+    it 'performs manual token_request failure' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: token_request_failure_response_body.to_json, status: 400)
@@ -60,7 +60,7 @@ RSpec.describe PicPayApi::Authentication do
     end
     let(:payload) { build(:refresh_token_request).to_h }
 
-    it 'performs manual refresh_token_request_success' do
+    it 'performs manual refresh_token_request success' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: token_request_success_response_body.to_json, status: 200)
@@ -74,7 +74,7 @@ RSpec.describe PicPayApi::Authentication do
       expect(response).to have_key(:token_type)
     end
 
-    it 'performs manual refresh_token_request_failure' do
+    it 'performs manual refresh_token_request failure' do
       stub_request(:post, url)
         .with(body: payload.to_json)
         .to_return(body: token_request_failure_response_body.to_json, status: 400)
