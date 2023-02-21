@@ -7,27 +7,27 @@ module PicPayApi
 
       extend T::Sig
 
-      SCOPE      = 'openid b2p.transfer'.freeze
-      GRANT_TYPE = 'client_credentials'.freeze
+      GRANT_TYPE = T.let('client_credentials'.freeze, String)
+      SCOPE      = T.let('openid b2p.transfer'.freeze, String)
 
       # @!attribute client_id
       #   @return [String]
-      # CLIENT_ID sent by Picpay.
+      #   CLIENT_ID sent by Picpay.
       prop :client_id, String
 
       # @!attribute client_secret
       #   @return [String]
-      # CLIENT_SECRET sent by Picpay
+      #   CLIENT_SECRET sent by Picpay
       prop :client_secret, String
 
       # @!attribute grant_type
       #   @return [String]
-      # Inform "client_credentials".
+      #   Inform "client_credentials".
       prop :grant_type, String, default: GRANT_TYPE
 
       # @!attribute scope
       #   @return [String]
-      # scope By default, inform "openid b2p.transfer"
+      #   scope By default, inform "openid b2p.transfer"
       prop :scope, String, default: SCOPE
 
       sig { returns(T::Hash[Symbol, T.untyped]) }

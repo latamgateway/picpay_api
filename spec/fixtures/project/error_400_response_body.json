@@ -1,0 +1,4 @@
+{
+  "message": "No valid payer reference on request",
+  "error_type": "INVALID_PAYEE_REGISTRATION_DATA"
+}

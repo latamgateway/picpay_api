@@ -7,9 +7,9 @@ module PicPayApi
 
       extend T::Sig
 
-      TYPES = {
+      TYPES = T.let({
         bearer: 'Bearer',
-      }.freeze
+      }.freeze, T::Hash[Symbol, String])
 
       # @!attribute type
       #   @return [String]
@@ -27,6 +27,7 @@ module PicPayApi
         }
       end
 
+      sig { returns(String) }
       def to_s
         "#{TYPES[@type.to_sym]}\s#{@token}"
       end

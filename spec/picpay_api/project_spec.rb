@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+extend T::Sig
 
 RSpec.describe PicPayApi::Project do
   let(:base_url) { ENV.fetch('PICPAY_API_URL', 'https://api.picpay.com').freeze }
@@ -19,87 +20,94 @@ RSpec.describe PicPayApi::Project do
   let(:entity) { build(:project) }
   let(:payload) { entity.to_h }
 
-  let(:project_create_success_response_body) do
+  let(:project_success_response_body) do
     JSON.parse(
-      File.read('./spec/fixtures/project_create_success_response_body.json'),
+      File.read('./spec/fixtures/project/success_response_body.json'),
       symbolize_names: true
     )
   end
 
-  let(:token_request_failure_response_body) do
+  let(:project_error_400_response_body) do
     JSON.parse(
-      File.read('./spec/fixtures/token_request_failure_response_body.json'),
+      File.read('./spec/fixtures/project/error_400_response_body.json'),
+      symbolize_names: true
+    )
+  end
+
+  let(:project_error_401_response_body) do
+    JSON.parse(
+      File.read('./spec/fixtures/project/error_401_response_body.json'),
+      symbolize_names: true
+    )
+  end
+
+  let(:project_error_422_response_body) do
+    JSON.parse(
+      File.read('./spec/fixtures/project/error_422_response_body.json'),
+      symbolize_names: true
+    )
+  end
+
+  let(:project_error_503_response_body) do
+    JSON.parse(
+      File.read('./spec/fixtures/project/error_503_response_body.json'),
       symbolize_names: true
     )
   end
 
   describe 'manual create' do
-
-
     it 'performs manual create_success' do
       stub_request(:post, url)
         .with(body: payload.to_json)
-        .to_return(body: project_create_success_response_body.to_json, status: 200)
+        .to_return(body: project_success_response_body.to_json, status: 200)
 
       response = project.create(entity: entity)
-      expect(response).to be_instance_of(PicPayApi::Entities::AuthenticationResponse)
 
-
-      its(:attributes) { should include("project_id") }
-
+      expect(response).to be_instance_of(PicPayApi::Entities::Project)
     end
 
-    its(:attributes) { should include("project_id") }
-
-    it "should include the :project_id attribute" do
-      response = project.create(entity: entity)
-      expect(response.attributes).to include(:project_id)
-    end
-
-
-    xit 'performs manual create_failure' do
+    it 'performs manual create_failure_400' do
       stub_request(:post, url)
         .with(body: payload.to_json)
-      #.to_return()
+        .to_return(body: project_error_400_response_body.to_json, status: 400)
 
-      expect { response = project.create(entity: entity) }.to raise_error(PicPayApi::Errors::BadRequest)
-                                                                .or raise_error(PicPayApi::Errors::Unauthorized)
-                                                                .or raise_error(PicPayApi::Errors::ServerError)
-
-
+      expect { project.create(entity: entity) }.to raise_error(Net::HTTPBadRequest::EXCEPTION_TYPE)
     end
 
+    it 'performs manual create_failure_401' do
+      stub_request(:post, url)
+        .with(body: payload.to_json)
+        .to_return(body: project_error_401_response_body.to_json, status: 401)
+
+      expect { project.create(entity: entity) }.to raise_error(Net::HTTPUnauthorized::EXCEPTION_TYPE)
+    end
+
+    it 'performs manual create_failure_422' do
+      stub_request(:post, url)
+        .with(body: payload.to_json)
+        .to_return(body: project_error_422_response_body.to_json, status: 422)
+
+      expect { project.create(entity: entity) }.to raise_error(Net::HTTPUnprocessableEntity::EXCEPTION_TYPE)
+    end
+
+    it 'performs manual create_failure_503' do
+      stub_request(:post, url)
+        .with(body: payload.to_json)
+        .to_return(body: project_error_503_response_body.to_json, status: 503)
+
+      expect { project.create(entity: entity) }.to raise_error(Net::HTTPServiceUnavailable::EXCEPTION_TYPE)
+    end
   end
 
   describe 'manual update' do
     it 'performs manual update_success' do
       stub_request(:put, url)
         .with(body: { project_id: project_id }.merge!(payload).to_json)
-        .to_return(body: project_create_success_response_body.to_json, status: 200)
+        .to_return(body: project_success_response_body.to_json, status: 200)
 
       response = project.update(project_id: project_id, entity: entity)
 
-      puts response.inspect
-
-      expect(response.project_id).to be_a(String)
-      expect(response.name).to be_a(String)
-      expect(response.payer_email).to be_a(String)
-      expect(response.started_at).to be_a(Date)
-      expect(response.ended_at).to be_a(DateTime)
-      expect(response.ended_at).to be_a(T::Boolean)
-      expect(response.payee_transaction_limit).to be_a(Integer)
-      expect(response.payee_transaction_limit).to be_a(Integer)
-      #
-      # expect(response).to have_key(:name)
-      # expect(response).to have_key(:payer_email)
-      # expect(response).to have_key(:started_at)
-      # expect(response).to have_key(:ended_at)
-      # expect(response).to have_key(:withdrawable)
-      # expect(response).to have_key(:payee_transaction_limit)
-      # expect(response).to have_key(:payee_transaction_value)
-      # expect(response).to have_key(:identical_transaction_rule)
-      # expect(response).to have_key(:created_at)
-      # expect(response).to have_key(:updated_at)
+      expect(response).to be_instance_of(PicPayApi::Entities::Project)
     end
   end
 

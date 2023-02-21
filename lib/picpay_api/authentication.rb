@@ -38,7 +38,6 @@ module PicPayApi
       @url           = T.let(URI.join(base_url, '/oauth2/token'), URI::Generic)
       @client_id     = client_id
       @client_secret = client_secret
-
     end
 
     sig { returns(PicPayApi::Entities::AuthenticationResponse) }
@@ -51,8 +50,8 @@ module PicPayApi
         client_id:     @client_id,
         client_secret: @client_secret
       )
-      body = request!(entity: token_request)
 
+      body = PicPayApi::HTTP::Client.post(uri: @url, payload: token_request.to_h)
       PicPayApi::Entities::AuthenticationResponse.from_h(hash: body)
     end
 
@@ -71,28 +70,9 @@ module PicPayApi
         client_secret: @client_secret,
         refresh_token: refresh_token
       )
-      body = request!(entity: refresh_token_request)
 
+      body = PicPayApi::HTTP::Client.post(uri: @url, payload: refresh_token_request.to_h)
       PicPayApi::Entities::AuthenticationResponse.from_h(hash: body)
-    end
-
-    private
-
-    sig do
-      params(
-        entity: T.any(PicPayApi::Entities::TokenRequest, PicPayApi::Entities::RefreshTokenRequest)
-      ).returns(T.untyped)
-    end
-    # @param [PicPayApi::Entities::TokenRequest, PicPayApi::Entities::RefreshTokenRequest] entity
-    def request!(entity:)
-      response = PicPayApi::HTTP::Client.post(uri: @url, payload: entity.to_h)
-      body     = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
-
-      unless response.is_a?(Net::HTTPSuccess)
-        raise PicPayApi::Errors::Authentication, body[:error_description]
-      end
-
-      body
     end
 
   end

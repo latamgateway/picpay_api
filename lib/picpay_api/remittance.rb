@@ -46,23 +46,16 @@ module PicPayApi
     sig do
       params(
         entity: PicPayApi::Entities::Remittance,
-      ).returns(PicPayApi::Entities::Remittance)
+      ).returns(PicPayApi::Entities::RemittanceResponse)
     end
     # This feature creates a transfer request, comparing the received values with the previously defined rules.
     # The transfer is completed only if the data is in accordance with the Project settings.
     #
     # @param [PicPayApi::Entities::Remittance] entity Remittance Entity with loaded data
     def transfer(entity:)
-      response = PicPayApi::HTTP::Client.post(uri: @url, payload: entity.to_h, authorization: @authorization)
-
-      body = T.let(JSON.parse(response.body, symbolize_names: true), T::Hash[Symbol, T.untyped])
-
-      error!(response: response, body: body)
-
-      PicPayApi::Entities::Remittance.from_h(hash: body)
+      body = PicPayApi::HTTP::Client.post(uri: @url, payload: entity.to_h, authorization: @authorization)
+      PicPayApi::Entities::RemittanceResponse.from_h(hash: body)
     end
-
-    include PicPayApi::Errors::Error
 
   end
 end

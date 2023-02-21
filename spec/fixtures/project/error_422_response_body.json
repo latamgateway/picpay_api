@@ -1,0 +1,11 @@
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "payer_email": [
+      "This account already has a project"
+    ],
+    "ended_at": [
+      "The field ended_at must be after started_at"
+    ]
+  }
+}

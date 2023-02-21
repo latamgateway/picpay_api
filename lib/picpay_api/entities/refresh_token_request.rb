@@ -7,26 +7,26 @@ module PicPayApi
 
       extend T::Sig
 
-      GRANT_TYPE = 'refresh_token'.freeze
+      GRANT_TYPE = T.let('refresh_token'.freeze, String)
 
       # @!attribute client_id
       #   @return [String]
-      # CLIENT_ID sent by Picpay.
+      #   CLIENT_ID sent by Picpay.
       prop :client_id, String
 
       # @!attribute client_secret
       #   @return [String]
-      # CLIENT_SECRET sent by Picpay
+      #   CLIENT_SECRET sent by Picpay
       prop :client_secret, String
 
       # @!attribute refresh_token
       #   @return [String]
-      # Received after requesting an "access token"
+      #   Received after requesting an "access token"
       prop :refresh_token, String
 
       # @!attribute grant_type
       #   @return [String]
-      # Inform "refresh_token".
+      #   Inform "refresh_token".
       prop :grant_type, String, default: GRANT_TYPE
 
       sig { returns(T::Hash[Symbol, T.untyped]) }

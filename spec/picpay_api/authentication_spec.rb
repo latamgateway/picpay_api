@@ -15,14 +15,14 @@ RSpec.describe PicPayApi::Authentication do
 
   let(:token_request_success_response_body) do
     JSON.parse(
-      File.read('./spec/fixtures/token_request_success_response_body.json'),
+      File.read('./spec/fixtures/authentication/token_request_success_response_body.json'),
       symbolize_names: true
     )
   end
 
   let(:token_request_failure_response_body) do
     JSON.parse(
-      File.read('./spec/fixtures/token_request_failure_response_body.json'),
+      File.read('./spec/fixtures/authentication/token_request_failure_response_body.json'),
       symbolize_names: true
     )
   end
@@ -49,7 +49,7 @@ RSpec.describe PicPayApi::Authentication do
         .with(body: payload.to_json)
         .to_return(body: token_request_failure_response_body.to_json, status: 400)
 
-      expect { authentication.token_request }.to raise_error(PicPayApi::Errors::Authentication)
+      expect { authentication.token_request }.to raise_error(Net::HTTPBadRequest::EXCEPTION_TYPE)
     end
 
   end
@@ -79,7 +79,7 @@ RSpec.describe PicPayApi::Authentication do
         .with(body: payload.to_json)
         .to_return(body: token_request_failure_response_body.to_json, status: 400)
 
-      expect { authentication.refresh_token_request(refresh_token: refresh_token) }.to raise_error(PicPayApi::Errors::Authentication)
+      expect { authentication.refresh_token_request(refresh_token: refresh_token) }.to raise_error(Net::HTTPBadRequest::EXCEPTION_TYPE)
     end
   end
 
