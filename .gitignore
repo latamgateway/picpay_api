@@ -18,5 +18,3 @@ Gemfile.lock
 .bundle
 
 .byebug_history
-
-bin/
