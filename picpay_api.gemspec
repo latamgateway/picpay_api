@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary               = 'Wrapper classes for the PicPay REST API'
   spec.description           = 'Contains classes which can be used to perform PicPay payments using the PicPay Credit Remittance API'
   spec.homepage              = 'https://github.com/latamgateway/picpay_api'
-  spec.required_ruby_version = '>= 3.2.0'
+  spec.required_ruby_version = '>= 2.7.6'
 
   spec.metadata['homepage_uri']    = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
