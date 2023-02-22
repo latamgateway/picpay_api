@@ -34,12 +34,12 @@ module PicPayApi
 
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::Authorization) }
       def self.from_h(hash:)
-        PicPayApi::Entities::Authorization.new(type: hash[:token_type], token: hash[:access_token])
+        PicPayApi::Entities::Authorization.new(type: hash[:token_type].to_s, token: hash[:access_token].to_s)
       end
 
       sig { params(response: PicPayApi::Entities::AuthenticationResponse).returns(PicPayApi::Entities::Authorization) }
       def from_response(response:)
-        PicPayApi::Entities::Authorization.new(type: response.token_type, token: response.access_token)
+        PicPayApi::Entities::Authorization.new(type: response.token_type.to_s, token: response.access_token.to_s)
       end
 
     end

@@ -6,14 +6,14 @@ require 'time'
 RSpec.describe PicPayApi::Entities::Project do
   describe 'Object' do
 
-    let!(:name) { ENV['PICPAY_PROJECT_NAME'] }
-    let!(:description) { ENV['PICPAY_PROJECT_DESCRIPTION'] }
+    let!(:name) { ENV['PICPAY_PROJECT_NAME'].to_s }
+    let!(:description) { ENV['PICPAY_PROJECT_DESCRIPTION'].to_s }
     let!(:started_at) { Date.parse(ENV['PICPAY_PROJECT_STARTED_AT']) }
     let!(:ended_at) { DateTime.parse(ENV['PICPAY_PROJECT_ENDED_AT']) }
-    let!(:withdrawable) { !!ENV['PICPAY_PROJECT_WITHDRAWABLE'] }
+    let!(:withdrawable) { (ENV['PICPAY_PROJECT_WITHDRAWABLE'].to_s.downcase == 'true') }
     let!(:payee_transaction_limit) { ENV['PICPAY_PROJECT_PAYEE_TRANSACTION_LIMIT'].to_i }
     let!(:payee_transaction_value) { ENV['PICPAY_PROJECT_PAYEE_TRANSACTION_VALUE'].to_f }
-    let!(:identical_transaction_rule) { !!ENV['PICPAY_PROJECT_IDENTICAL_TRANSACTION_RULE'] }
+    let!(:identical_transaction_rule) { (ENV['PICPAY_PROJECT_IDENTICAL_TRANSACTION_RULE'].to_s.downcase == 'true') }
 
     context 'attributes' do
       it 'has attr_accessors' do

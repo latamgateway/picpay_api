@@ -6,13 +6,13 @@ require 'time'
 FactoryBot.define do
   factory :transfer, class: PicPayApi::Entities::Transfer do
     transfer_id { ENV['PICPAY_TRANSFER_ID'].to_s }
-    status { ENV['PICPAY_TRANSFER_STATUS'] }
+    status { ENV['PICPAY_TRANSFER_STATUS'].to_s }
     value { ENV['PICPAY_TRANSFER_VALUE'].to_f }
     transfered_at { DateTime.parse(ENV['PICPAY_TRANSFER_TRANSFERED_AT']) }
     transaction_id { ENV['PICPAY_TRANSFER_TRANSACTION_ID'].to_i }
     created_at { DateTime.parse(ENV['PICPAY_TRANSFER_CREATED_AT']) }
-    erro { !!ENV['PICPAY_TRANSFER_ERRO'] }
-    operacao { ENV['PICPAY_TRANSFER_OPERACAO'] }
+    error { (ENV['PICPAY_TRANSFER_ERROR'].to_s.downcase == 'true') }
+    operation { ENV['PICPAY_TRANSFER_OPERATION'].to_s }
 
     initialize_with do
       new(
@@ -22,8 +22,8 @@ FactoryBot.define do
         transfered_at:  transfered_at,
         transaction_id: transaction_id,
         created_at:     created_at,
-        erro:           erro,
-        operacao:       operacao
+        error:          error,
+        operation:      operation
       )
     end
   end

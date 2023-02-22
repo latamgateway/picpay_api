@@ -38,7 +38,7 @@ module PicPayApi
       def self.from_h(hash:)
         PicPayApi::Entities::RemittanceResponse.new(
           transfer_id:  hash[:transfer_id].to_s,
-          reference_id: hash[:reference_id],
+          reference_id: hash[:reference_id].to_s,
           created_at:   DateTime.parse(hash[:created_at]),
         )
       end

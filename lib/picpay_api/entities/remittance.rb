@@ -37,7 +37,7 @@ module PicPayApi
         PicPayApi::Entities::Remittance.new(
           consumer:     hash[:consumer].to_s,
           value:        hash[:value].to_f,
-          reference_id: hash[:reference_id],
+          reference_id: hash[:reference_id].to_s,
         )
       end
 

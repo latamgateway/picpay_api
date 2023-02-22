@@ -4,7 +4,7 @@
 RSpec.describe PicPayApi::Entities::Remittance do
   describe 'Object' do
 
-    let!(:reference_id) { ENV['PICPAY_REFERENCE_ID'] }
+    let!(:reference_id) { ENV['PICPAY_REFERENCE_ID'].to_s }
     let!(:consumer) { ENV['PICPAY_REMITTANCE_CONSUMER'].to_s }
     let!(:value) { ENV['PICPAY_REMITTANCE_VALUE'].to_f }
 

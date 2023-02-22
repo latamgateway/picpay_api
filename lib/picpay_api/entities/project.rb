@@ -97,14 +97,14 @@ module PicPayApi
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::Project) }
       def self.from_h(hash:)
         PicPayApi::Entities::Project.new(
-          name:                       hash.fetch(:name, nil).to_s,
-          description:                hash.fetch(:description, nil).to_s,
+          name:                       hash.fetch(:name, nil)&.to_s,
+          description:                hash.fetch(:description, nil)&.to_s,
           started_at:                 Date.parse(hash[:started_at].to_s),
           ended_at:                   DateTime.parse(hash[:started_at].to_s),
-          withdrawable:               (!!hash[:withdrawable]),
+          withdrawable:               (hash[:withdrawable].to_s.downcase == 'true'),
           payee_transaction_limit:    hash[:payee_transaction_limit].to_i,
           payee_transaction_value:    hash[:payee_transaction_value].to_f,
-          identical_transaction_rule: (!!hash[:identical_transaction_rule]),
+          identical_transaction_rule: (hash[:identical_transaction_rule].to_s.downcase == 'true'),
           created_at:                 hash.fetch(:created_at, nil),
           updated_at:                 hash.fetch(:updated_at, nil),
           payer_email:                hash.fetch(:payer_email, nil),

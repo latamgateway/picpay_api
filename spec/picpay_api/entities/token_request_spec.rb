@@ -3,8 +3,8 @@
 
 RSpec.describe PicPayApi::Entities::TokenRequest do
   describe 'Object' do
-    let!(:client_id) { ENV['PICPAY_CLIENT_ID'] }
-    let!(:client_secret) { ENV['PICPAY_CLIENT_SECRET'] }
+    let!(:client_id) { ENV['PICPAY_CLIENT_ID'].to_s }
+    let!(:client_secret) { ENV['PICPAY_CLIENT_SECRET'].to_s }
 
     context 'attributes' do
       it 'has attr_accessors' do

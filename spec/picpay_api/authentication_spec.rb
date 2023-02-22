@@ -5,8 +5,8 @@ require 'spec_helper'
 
 RSpec.describe PicPayApi::Authentication do
   let(:base_url) { ENV.fetch('PICPAY_API_URL', 'https://api.picpay.com').freeze }
-  let!(:client_id) { ENV['PICPAY_CLIENT_ID'] }
-  let!(:client_secret) { ENV['PICPAY_CLIENT_SECRET'] }
+  let!(:client_id) { ENV['PICPAY_CLIENT_ID'].to_s }
+  let!(:client_secret) { ENV['PICPAY_CLIENT_SECRET'].to_s }
   let(:url) { URI.join(base_url, '/oauth2/token') }
 
   let(:authentication) do

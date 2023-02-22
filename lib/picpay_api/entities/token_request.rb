@@ -43,10 +43,10 @@ module PicPayApi
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::TokenRequest) }
       def self.from_h(hash:)
         PicPayApi::Entities::TokenRequest.new(
-          client_id:     hash[:client_id],
-          client_secret: hash[:client_secret],
-          grant_type:    hash.fetch(:grant_type, GRANT_TYPE),
-          scope:         hash.fetch(:scope, SCOPE),
+          client_id:     hash[:client_id].to_s,
+          client_secret: hash[:client_secret].to_s,
+          grant_type:    hash.fetch(:grant_type, GRANT_TYPE).to_s,
+          scope:         hash.fetch(:scope, SCOPE).to_s,
         )
       end
 

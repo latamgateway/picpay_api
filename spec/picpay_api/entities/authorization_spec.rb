@@ -4,8 +4,8 @@
 RSpec.describe PicPayApi::Entities::Authorization do
   describe 'Object' do
 
-    let!(:type) { ENV['PICPAY_TOKEN_TYPE'] }
-    let!(:token) { ENV['PICPAY_ACCESS_TOKEN'] }
+    let!(:type) { ENV['PICPAY_TOKEN_TYPE'].to_s }
+    let!(:token) { ENV['PICPAY_ACCESS_TOKEN'].to_s }
 
     context 'attributes' do
       it 'has attr_accessors' do

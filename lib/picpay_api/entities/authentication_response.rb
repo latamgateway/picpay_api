@@ -41,11 +41,11 @@ module PicPayApi
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::AuthenticationResponse) }
       def self.from_h(hash:)
         PicPayApi::Entities::AuthenticationResponse.new(
-          access_token:       hash[:access_token],
+          access_token:       hash[:access_token].to_s,
           expires_in:         hash[:expires_in].to_i,
           refresh_expires_in: hash[:refresh_expires_in].to_i,
-          refresh_token:      hash[:refresh_token],
-          token_type:         hash[:token_type],
+          refresh_token:      hash[:refresh_token].to_s,
+          token_type:         hash[:token_type].to_s,
         )
       end
 

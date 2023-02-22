@@ -33,13 +33,13 @@ module PicPayApi
       #   @return [DateTime] Date of creation of the transfer
       prop :created_at, DateTime
 
-      # @!attribute erro
+      # @!attribute error
       #   @return [Boolean]
-      prop :erro, T::Boolean
+      prop :error, T::Boolean
 
-      # @!attribute operacao
+      # @!attribute operation
       #   @return [String]
-      prop :operacao, String
+      prop :operation, String
 
       sig { returns(T::Hash[Symbol, T.untyped]) }
       def to_h
@@ -50,8 +50,8 @@ module PicPayApi
           transfered_at:  @transfered_at,
           transaction_id: @transaction_id,
           created_at:     @created_at,
-          erro:           @erro,
-          operacao:       @operacao,
+          erro:           @error,
+          operacao:       @operation,
         }
       end
 
@@ -64,8 +64,8 @@ module PicPayApi
           transfered_at:  DateTime.parse(hash[:transfered_at]),
           transaction_id: hash[:transaction_id].to_i,
           created_at:     DateTime.parse(hash[:created_at]),
-          erro:           (!!hash[:erro]),
-          operacao:       hash[:operacao].to_s,
+          error:          (hash[:erro].to_s.downcase == 'true'),
+          operation:      hash[:operacao].to_s,
         )
       end
 

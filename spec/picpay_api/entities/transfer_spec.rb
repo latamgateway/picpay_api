@@ -7,13 +7,13 @@ RSpec.describe PicPayApi::Entities::Transfer do
   describe 'Object' do
 
     let!(:transfer_id) { ENV['PICPAY_TRANSFER_ID'].to_s }
-    let!(:status) { ENV['PICPAY_TRANSFER_STATUS'] }
+    let!(:status) { ENV['PICPAY_TRANSFER_STATUS'].to_s }
     let!(:value) { ENV['PICPAY_TRANSFER_VALUE'].to_f }
     let!(:transfered_at) { DateTime.parse(ENV['PICPAY_TRANSFER_TRANSFERED_AT']) }
     let!(:transaction_id) { ENV['PICPAY_TRANSFER_TRANSACTION_ID'].to_i }
     let!(:created_at) { DateTime.parse(ENV['PICPAY_TRANSFER_CREATED_AT']) }
-    let!(:erro) { !!ENV['PICPAY_TRANSFER_ERRO'] }
-    let!(:operacao) { ENV['PICPAY_TRANSFER_OPERACAO'] }
+    let!(:error) { (ENV['PICPAY_TRANSFER_ERROR'].to_s.downcase == 'true') }
+    let!(:operation) { ENV['PICPAY_TRANSFER_OPERATION'].to_s }
 
     context 'attributes' do
       it 'has attr_accessors' do
@@ -24,8 +24,8 @@ RSpec.describe PicPayApi::Entities::Transfer do
           transfered_at:  transfered_at,
           transaction_id: transaction_id,
           created_at:     created_at,
-          erro:           erro,
-          operacao:       operacao
+          error:          error,
+          operation:      operation
         )
 
         expect(transfer).to respond_to(:transfer_id)
@@ -34,8 +34,8 @@ RSpec.describe PicPayApi::Entities::Transfer do
         expect(transfer).to respond_to(:transfered_at)
         expect(transfer).to respond_to(:transaction_id)
         expect(transfer).to respond_to(:created_at)
-        expect(transfer).to respond_to(:erro)
-        expect(transfer).to respond_to(:operacao)
+        expect(transfer).to respond_to(:error)
+        expect(transfer).to respond_to(:operation)
 
         expect(transfer).to respond_to(:transfer_id=)
         expect(transfer).to respond_to(:status=)
@@ -43,8 +43,8 @@ RSpec.describe PicPayApi::Entities::Transfer do
         expect(transfer).to respond_to(:transfered_at=)
         expect(transfer).to respond_to(:transaction_id=)
         expect(transfer).to respond_to(:created_at=)
-        expect(transfer).to respond_to(:erro=)
-        expect(transfer).to respond_to(:operacao=)
+        expect(transfer).to respond_to(:error=)
+        expect(transfer).to respond_to(:operation=)
 
       end
     end
@@ -58,8 +58,8 @@ RSpec.describe PicPayApi::Entities::Transfer do
           transfered_at:  transfered_at,
           transaction_id: transaction_id,
           created_at:     created_at,
-          erro:           erro,
-          operacao:       operacao
+          error:          error,
+          operation:      operation
         )
 
         expect(transfer.transfer_id).to eq(transfer_id)
@@ -68,8 +68,8 @@ RSpec.describe PicPayApi::Entities::Transfer do
         expect(transfer.transfered_at).to eq(transfered_at)
         expect(transfer.transaction_id).to eq(transaction_id)
         expect(transfer.created_at).to eq(created_at)
-        expect(transfer.erro).to eq(erro)
-        expect(transfer.operacao).to eq(operacao)
+        expect(transfer.error).to eq(error)
+        expect(transfer.operation).to eq(operation)
       end
     end
   end

@@ -5,7 +5,7 @@ require 'spec_helper'
 
 RSpec.describe PicPayApi::Remittance do
   let(:base_url) { ENV.fetch('PICPAY_API_URL', 'https://api.picpay.com').freeze }
-  let(:reference_id) { ENV['PICPAY_REFERENCE_ID'] }
+  let(:reference_id) { ENV['PICPAY_REFERENCE_ID'].to_s }
   let(:url) { URI.join(base_url, '/v1/b2p/transfer') }
   let(:authorization) { build(:authorization) }
 

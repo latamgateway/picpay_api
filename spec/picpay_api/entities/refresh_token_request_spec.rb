@@ -3,9 +3,9 @@
 
 RSpec.describe PicPayApi::Entities::RefreshTokenRequest do
   describe 'Object' do
-    let!(:client_id) { ENV['PICPAY_CLIENT_ID'] }
-    let!(:client_secret) { ENV['PICPAY_CLIENT_SECRET'] }
-    let!(:refresh_token) { ENV['PICPAY_REFRESH_TOKEN'] }
+    let!(:client_id) { ENV['PICPAY_CLIENT_ID'].to_s }
+    let!(:client_secret) { ENV['PICPAY_CLIENT_SECRET'].to_s }
+    let!(:refresh_token) { ENV['PICPAY_REFRESH_TOKEN'].to_s }
 
     context 'attributes' do
       it 'has attr_accessors' do
