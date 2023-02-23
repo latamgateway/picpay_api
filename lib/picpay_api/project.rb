@@ -36,10 +36,11 @@ module PicPayApi
       @authorization = authorization
     end
 
-    sig { returns(T::Hash[Symbol, T.untyped]) }
+    sig { returns(PicPayApi::Entities::ProjectsResponse) }
     # Resource available for consulting the Credit Referral Project settings.
     def get
-      PicPayApi::HTTP::Client.get(uri: @url, authorization: @authorization)
+      body = PicPayApi::HTTP::Client.get(uri: @url, authorization: @authorization)
+      PicPayApi::Entities::ProjectsResponse.from_h(body)
     end
 
     sig do
@@ -53,7 +54,7 @@ module PicPayApi
     # @param [PicPayApi::Entities::Project] entity Project Entity with loaded data to create
     def create(entity:)
       body = PicPayApi::HTTP::Client.post(uri: @url, payload: entity.to_h, authorization: @authorization)
-      PicPayApi::Entities::Project.from_h(hash: body)
+      PicPayApi::Entities::Project.from_h(body)
     end
 
     sig do
@@ -69,7 +70,7 @@ module PicPayApi
     def update(project_id:, entity:)
       entity.project_id = project_id
       body = PicPayApi::HTTP::Client.put(uri: @url, payload: entity.to_h, authorization: @authorization)
-      PicPayApi::Entities::Project.from_h(hash: body)
+      PicPayApi::Entities::Project.from_h(body)
     end
 
   end

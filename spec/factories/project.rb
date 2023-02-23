@@ -7,7 +7,7 @@ FactoryBot.define do
   factory :project, class: PicPayApi::Entities::Project do
     name { ENV['PICPAY_PROJECT_NAME'].to_s }
     description { ENV['PICPAY_PROJECT_DESCRIPTION'].to_s }
-    started_at { Date.parse(ENV['PICPAY_PROJECT_STARTED_AT']) }
+    started_at { DateTime.parse(ENV['PICPAY_PROJECT_STARTED_AT']) }
     ended_at { DateTime.parse(ENV['PICPAY_PROJECT_ENDED_AT']) }
     withdrawable { (ENV['PICPAY_PROJECT_WITHDRAWABLE'].to_s.downcase == 'true') }
     payee_transaction_limit { ENV['PICPAY_PROJECT_PAYEE_TRANSACTION_LIMIT'].to_i }

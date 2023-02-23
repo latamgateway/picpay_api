@@ -54,7 +54,7 @@ module PicPayApi
     # @param [PicPayApi::Entities::Remittance] entity Remittance Entity with loaded data
     def transfer(entity:)
       body = PicPayApi::HTTP::Client.post(uri: @url, payload: entity.to_h, authorization: @authorization)
-      PicPayApi::Entities::RemittanceResponse.from_h(hash: body)
+      PicPayApi::Entities::RemittanceResponse.from_h(body)
     end
 
   end

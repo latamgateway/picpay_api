@@ -20,9 +20,9 @@ module PicPayApi
       prop :description, T.nilable(String), default: nil
 
       # @!attribute started_at (default: nil)
-      #   @return [nil, Date] (default: nil)
+      #   @return [nil, DateTime] (default: nil)
       #   Start date of payments related to the Credit Referral. If not informed, the rule will not apply
-      prop :started_at, T.nilable(Date), default: nil
+      prop :started_at, T.nilable(DateTime), default: nil
 
       # @!attribute ended_at
       #   @return [nil, DateTime] (default: nil)
@@ -95,12 +95,12 @@ module PicPayApi
       end
 
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::Project) }
-      def self.from_h(hash:)
+      def self.from_h(hash)
         PicPayApi::Entities::Project.new(
           name:                       hash.fetch(:name, nil)&.to_s,
           description:                hash.fetch(:description, nil)&.to_s,
-          started_at:                 Date.parse(hash[:started_at].to_s),
-          ended_at:                   DateTime.parse(hash[:started_at].to_s),
+          started_at:                 DateTime.parse(hash[:started_at].to_s),
+          ended_at:                   DateTime.parse(hash[:ended_at].to_s),
           withdrawable:               (hash[:withdrawable].to_s.downcase == 'true'),
           payee_transaction_limit:    hash[:payee_transaction_limit].to_i,
           payee_transaction_value:    hash[:payee_transaction_value].to_f,

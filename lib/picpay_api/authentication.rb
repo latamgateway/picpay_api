@@ -52,7 +52,7 @@ module PicPayApi
       )
 
       body = PicPayApi::HTTP::Client.post(uri: @url, payload: token_request.to_h)
-      PicPayApi::Entities::AuthenticationResponse.from_h(hash: body)
+      PicPayApi::Entities::AuthenticationResponse.from_h(body)
     end
 
     sig { params(refresh_token: String).returns(PicPayApi::Entities::AuthenticationResponse) }
@@ -72,7 +72,7 @@ module PicPayApi
       )
 
       body = PicPayApi::HTTP::Client.post(uri: @url, payload: refresh_token_request.to_h)
-      PicPayApi::Entities::AuthenticationResponse.from_h(hash: body)
+      PicPayApi::Entities::AuthenticationResponse.from_h(body)
     end
 
   end

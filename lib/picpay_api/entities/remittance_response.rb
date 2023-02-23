@@ -35,7 +35,7 @@ module PicPayApi
       end
 
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::RemittanceResponse) }
-      def self.from_h(hash:)
+      def self.from_h(hash)
         PicPayApi::Entities::RemittanceResponse.new(
           transfer_id:  hash[:transfer_id].to_s,
           reference_id: hash[:reference_id].to_s,

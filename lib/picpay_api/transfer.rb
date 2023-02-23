@@ -47,7 +47,7 @@ module PicPayApi
     # Resource made available by consulting a Reference ID Transfer
     def get
       body = PicPayApi::HTTP::Client.get(uri: @url, authorization: @authorization)
-      PicPayApi::Entities::Transfer.from_h(hash: body)
+      PicPayApi::Entities::Transfer.from_h(body)
     end
   end
 end

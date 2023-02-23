@@ -39,7 +39,7 @@ module PicPayApi
       end
 
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::AuthenticationResponse) }
-      def self.from_h(hash:)
+      def self.from_h(hash)
         PicPayApi::Entities::AuthenticationResponse.new(
           access_token:       hash[:access_token].to_s,
           expires_in:         hash[:expires_in].to_i,

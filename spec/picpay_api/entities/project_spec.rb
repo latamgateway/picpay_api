@@ -8,7 +8,7 @@ RSpec.describe PicPayApi::Entities::Project do
 
     let!(:name) { ENV['PICPAY_PROJECT_NAME'].to_s }
     let!(:description) { ENV['PICPAY_PROJECT_DESCRIPTION'].to_s }
-    let!(:started_at) { Date.parse(ENV['PICPAY_PROJECT_STARTED_AT']) }
+    let!(:started_at) { DateTime.parse(ENV['PICPAY_PROJECT_STARTED_AT']) }
     let!(:ended_at) { DateTime.parse(ENV['PICPAY_PROJECT_ENDED_AT']) }
     let!(:withdrawable) { (ENV['PICPAY_PROJECT_WITHDRAWABLE'].to_s.downcase == 'true') }
     let!(:payee_transaction_limit) { ENV['PICPAY_PROJECT_PAYEE_TRANSACTION_LIMIT'].to_i }

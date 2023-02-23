@@ -56,7 +56,7 @@ module PicPayApi
       end
 
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::Transfer) }
-      def self.from_h(hash:)
+      def self.from_h(hash)
         PicPayApi::Entities::Transfer.new(
           transfer_id:    hash[:transfer_id].to_s,
           status:         hash[:status].to_s,

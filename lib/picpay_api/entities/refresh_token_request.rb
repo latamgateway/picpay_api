@@ -40,7 +40,7 @@ module PicPayApi
       end
 
       sig { params(hash: T::Hash[Symbol, T.untyped]).returns(PicPayApi::Entities::RefreshTokenRequest) }
-      def self.from_h(hash:)
+      def self.from_h(hash)
         PicPayApi::Entities::RefreshTokenRequest.new(
           client_id:     hash[:client_id].to_s,
           client_secret: hash[:client_secret].to_s,

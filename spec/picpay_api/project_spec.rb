@@ -75,12 +75,8 @@ RSpec.describe PicPayApi::Project do
         .to_return(body: project_data_response_body.to_json, status: 200)
 
       response = project.get
+      expect(response).to be_instance_of(PicPayApi::Entities::ProjectsResponse)
 
-      expect(response).to have_key(:data)
-      expect(response).to have_key(:total)
-      expect(response).to have_key(:current_page)
-      expect(response).to have_key(:last_page)
-      expect(response).to have_key(:per_page)
     end
 
     it 'performs manual get failure 400' do
