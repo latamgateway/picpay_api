@@ -7,11 +7,7 @@ FactoryBot.define do
     current_page { ENV['PICPAY_PROJECTS_RESPONSE_CURRENT_PAGE'].to_i }
     last_page { ENV['PICPAY_PROJECTS_RESPONSE_LAST_PAGE'].to_i }
     per_page { ENV['PICPAY_PROJECTS_RESPONSE_PER_PAGE'].to_i }
-    entity { build(:project) }
-    data do
-      list = []
-      list.push(entity)
-    end
+    data { [build(:project)] }
 
     initialize_with do
       new(
