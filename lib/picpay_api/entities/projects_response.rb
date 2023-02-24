@@ -25,7 +25,7 @@ module PicPayApi
 
       # @!attribute data
       #   @return [Array]
-      prop :data, T::Array[::PicPayApi::Entities::Project]
+      prop :data, Array[PicPayApi::Entities::Project]
 
       sig { returns(T::Hash[T.untyped, T.untyped]) }
       def to_h

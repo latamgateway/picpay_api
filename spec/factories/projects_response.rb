@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :projects_response, class: PicPayApi::Entities::ProjectsResopnse do
+  factory :projects_response, class: PicPayApi::Entities::ProjectsResponse do
     total { ENV['PICPAY_PROJECTS_RESPONSE_TOTAL'].to_i }
     current_page { ENV['PICPAY_PROJECTS_RESPONSE_CURRENT_PAGE'].to_i }
     last_page { ENV['PICPAY_PROJECTS_RESPONSE_LAST_PAGE'].to_i }
