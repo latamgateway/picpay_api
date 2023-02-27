@@ -60,13 +60,8 @@ RSpec.describe PicPayApi::Authentication do
         .with(body: payload.to_json)
         .to_return(body: token_request_success_response_body.to_json, status: 200)
 
-      response = authentication.refresh_token_request(refresh_token: refresh_token).to_h
-
-      expect(response).to have_key(:access_token)
-      expect(response).to have_key(:expires_in)
-      expect(response).to have_key(:refresh_expires_in)
-      expect(response).to have_key(:refresh_token)
-      expect(response).to have_key(:token_type)
+      response = authentication.refresh_token_request(refresh_token: refresh_token)
+      expect(response).to be_a(PicPayApi::Entities::AuthenticationResponse)
     end
 
     it 'performs manual refresh_token_request failure' do
