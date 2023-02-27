@@ -1,6 +1,8 @@
 # typed: strict
 # frozen_string_literal: true
 
+require_relative 'project'
+
 module PicPayApi
   module Entities
     class ProjectsResponse < T::Struct
@@ -25,7 +27,7 @@ module PicPayApi
 
       # @!attribute data
       #   @return [Array]
-      prop :data, T::Array[::PicPayApi::Entities::Project]
+      prop :data, T::Array[PicPayApi::Entities::Project]
 
       sig { returns(T::Hash[T.untyped, T.untyped]) }
       def to_h
