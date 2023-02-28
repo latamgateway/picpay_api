@@ -5,11 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gemspec
 
-gem "sorbet-runtime", "~> 0.5.10649"
-
 group :development, :test do
   gem "tapioca", "~> 0.10.5"
-  gem "sorbet-static", "~> 0.5.10649"
   gem "dotenv", "~> 2.8"
   gem "pry-byebug", "~> 3.10"
 end
